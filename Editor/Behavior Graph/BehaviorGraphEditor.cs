@@ -12,7 +12,7 @@ namespace BehaviorGraph.GraphEditor
 {
     public class BehaviorGraphEditor : EditorWindow
     {
-        //[SerializeField] private VisualTreeAsset m_VisualTreeAsset = default;
+        [SerializeField] private VisualTreeAsset m_VisualTreeAsset = default;
         public static EditorWindow WND;
         private MiniMap _miniMap;
 
@@ -38,10 +38,10 @@ namespace BehaviorGraph.GraphEditor
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
-            var packageRoot = "Packages/com.tramshy.trashy-behavior-graph/";
+            /*var packageRoot = "Packages/com.tramshy.trashy-behavior-graph/";
             var uxmlPath = packageRoot + "Editor/Behavior Graph/BehaviorGraphEditor.uxml";
-            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);
-            uxml.CloneTree(root);
+            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);*/
+            m_VisualTreeAsset.CloneTree(root);
 
             StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Behavior Graph/BehaviorGraphEditor.uss");
             root.styleSheets.Add(styleSheet);
