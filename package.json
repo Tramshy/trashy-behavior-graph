@@ -10,6 +10,6 @@
     "url": "https://big-trashy.itch.io/"
   },
   "dependencies": {
-    "com.tramshy.trashy-tools-package": "https://github.com/Tramshy/trashy-tools-package.git"
+    "com.tramshy.trashy-tools-package": "1.0.0"
   }
 }
