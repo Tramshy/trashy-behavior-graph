@@ -38,9 +38,6 @@ namespace BehaviorGraph.GraphEditor
             // Each editor window contains a root VisualElement object
             VisualElement root = rootVisualElement;
 
-            /*var packageRoot = "Packages/com.tramshy.trashy-behavior-graph/";
-            var uxmlPath = packageRoot + "Editor/Behavior Graph/BehaviorGraphEditor.uxml";
-            var uxml = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(uxmlPath);*/
             m_VisualTreeAsset.CloneTree(root);
 
             StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Editor/Behavior Graph/BehaviorGraphEditor.uss");

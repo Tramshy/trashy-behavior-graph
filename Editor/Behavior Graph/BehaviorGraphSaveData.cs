@@ -33,7 +33,7 @@ namespace BehaviorGraph.GraphEditor
 
     public static class GraphSave
     {
-        public static void SaveDataAsJSON(BehaviorGraphSaveData data, string saveName, string path = "Assets/Editor/Behavior Graph/Graph Saves/")
+        public static void SaveDataAsJSON(BehaviorGraphSaveData data, string saveName, string path = "Packages/trashy-behavior-graph/Editor/Behavior Graph/Graph Saves/")
         {
             if (!Directory.Exists(path))
             {
@@ -54,7 +54,7 @@ namespace BehaviorGraph.GraphEditor
             AssetDatabase.Refresh();
         }
 
-        public static BehaviorGraphSaveData LoadDataFromGUID(string guid, string path = "Assets/Editor/Behavior Graph/Graph Saves/")
+        public static BehaviorGraphSaveData LoadDataFromGUID(string guid, string path = "Packages/trashy-behavior-graph/Editor/Behavior Graph/Graph Saves/")
         {
             if (!Directory.Exists(path))
                 throw new Exception($"Directory does not exist: {path}");
@@ -128,8 +128,8 @@ namespace BehaviorGraph.GraphEditor
 
             return loadedData;
         }
-
-        public static bool IsFileAtGUIDValid(string guid, string path = "Assets/Editor/Behavior Graph/Graph Saves")
+        
+        public static bool IsFileAtGUIDValid(string guid, string path = "Packages/trashy-behavior-graph/Editor/Behavior Graph/Graph Saves")
         {
             return File.Exists($"{path}/{guid}");
         }
