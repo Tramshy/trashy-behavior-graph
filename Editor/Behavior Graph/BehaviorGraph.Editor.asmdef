@@ -1,0 +1,19 @@
+{
+    "name": "BehaviorGraph.GraphEditor",
+    "rootNamespace": "BehaviorGraph.GraphEditor",
+    "references": [
+        "GUID:7c04f0dfa9243c04681a55d90d3ff3fc",
+        "GUID:c0672d039d6b0584c926b98e035d7be2"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

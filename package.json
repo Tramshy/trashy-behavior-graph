@@ -1,0 +1,15 @@
+{
+  "name": "com.tramshy.trashy-behavior-graph",
+  "version": "1.0.0",
+  "displayName": "Behavior Graph",
+  "description": "A package containing a custom graph editor, that can be used to create simple, or complex, AI systems",
+  "unity": "2022.3",
+  "author": {
+    "name": "Trashy aka Simon",
+    "email": "simon.personal1000@gmail.com",
+    "url": "https://big-trashy.itch.io/"
+  },
+  "dependencies": {
+    "com.tramshy.trashy-tools-package": "https://github.com/Tramshy/trashy-tools-package.git"
+  }
+}

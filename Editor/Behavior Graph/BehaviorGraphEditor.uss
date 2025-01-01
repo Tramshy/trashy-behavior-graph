@@ -1,0 +1,23 @@
+GridBackground {
+    --grid-background-color: rgb(40, 40, 40);
+    --line-color: rgba(193, 196, 192, 0.1);
+    --thick-line-color: rgba(193, 196, 192, 0.1);
+    --spacing: 15;
+}
+
+.windowLabel {
+    align-items: stretch;
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: rgb(200, 200, 200);
+    background-color: rgb(31, 31, 31);
+    border-left-color: rgba(255, 255, 255, 0);
+    border-right-color: rgba(255, 255, 255, 0);
+    border-top-color: rgba(255, 255, 255, 0);
+    border-bottom-color: rgba(255, 255, 255, 0);
+    transform-origin: center;
+    scale: 1 1;
+    -unity-slice-scale: 1px;
+    padding-left: 0;
+    margin-left: 0;
+}
