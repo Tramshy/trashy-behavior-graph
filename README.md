@@ -43,7 +43,7 @@ A visualized graph editor, allowing for simple, and complex, AI creation
 3. Enjoy!
 
 ## Dependency: `TrashyTools`
-This package depends on the `TrashyTools` package, which is an MIT Licensed utility library for Unity (Created by me :D). `TrashyTools` is automatically installed when you add the Behavior Graph Package.
+This package depends on the `TrashyTools` package, which is an MIT Licensed utility library for Unity (Created by me :D). Either install the package through the package manager, or add the https Git link to your projects `manifest.json` file.
 
 For more information, visit the [Trashy Tools repository](https://github.com/Tramshy/trashy-tools-package)
 
