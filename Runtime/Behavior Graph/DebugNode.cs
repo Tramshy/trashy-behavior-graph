@@ -6,7 +6,7 @@ namespace BehaviorGraph
     {
         public DataField<string> Message;
 
-        [SerializeField] private bool _shouldLoop;
+        [SerializeField] private DataField<bool> _shouldLoop;
 
         public override void OnNodeStart()
         {
@@ -17,7 +17,7 @@ namespace BehaviorGraph
 
         public override void OnNodeUpdate()
         {
-            if (!_shouldLoop)
+            if (!_shouldLoop.Value)
                 return;
 
             Debug.Log(Message.Value);
