@@ -30,10 +30,10 @@ namespace BehaviorGraph.GraphEditor
 
             Type targetType = target.GetType();
             FieldInfo[] fields = targetType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-
+            
             foreach (FieldInfo field in fields)
             {
-                if (field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(DataField<>))// || field.FieldType == typeof(BehaviorGraphInspectSO.FieldBindingData[]))
+                if ((field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(DataField<>)) || field.FieldType.IsEnum)
                 {
                     SerializedProperty property = serializedObject.FindProperty(field.Name);
                     if (property != null)
