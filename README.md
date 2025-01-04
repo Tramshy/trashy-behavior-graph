@@ -50,5 +50,7 @@ For more information, visit the [Trashy Tools repository](https://github.com/Tra
 ## License
 This package is licensed under the MIT License. For more information read: `LICENSE`.
 
-## Additional Note
+## Additional Notes
+Due to the fact that the system uses `Scriptable Objects` as nodes, it is recommended to use the `[NonSerialized]` attribute to avoid Unity from serializing the runtime data and thus overiding your default values for variables. This won't be an issue for the `DataField<>` variables.
+
 The use of [UPM Git Extension](https://github.com/mob-sakai/UpmGitExtension) is highly recommended, for easy updating of this package.
