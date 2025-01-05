@@ -23,5 +23,10 @@ namespace BehaviorGraph
 
             return false;
         }
+
+        public override void ConditionExit()
+        {
+            _passedTime = 0;
+        }
     }
 }

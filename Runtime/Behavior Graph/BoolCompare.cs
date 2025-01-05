@@ -8,9 +8,17 @@ namespace BehaviorGraph
     {
         public DataField<bool> ToCheck;
 
+        private enum CheckOption { True, False }
+        [SerializeField] private CheckOption _checkTrueOrFalse;
+
         public override bool Condition()
         {
-            return ToCheck.Value;
+            if (_checkTrueOrFalse == CheckOption.True)
+                return ToCheck.Value;
+            else
+            {
+                return !ToCheck.Value;
+            }
         }
     }
 }

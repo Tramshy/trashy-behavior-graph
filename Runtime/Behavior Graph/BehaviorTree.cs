@@ -25,7 +25,11 @@ namespace BehaviorGraph
         public Node CurrentNode { get => _currentNode; private set
             {
                 if (_currentNode != null)
+                {
                     _currentNode.ResetNode();
+
+                    _currentNode.Transitions.ForEach((t) => t.TransitionCondition.ConditionExit());
+                }
 
                 _currentNode = value;
                 _currentNode.OnNodeStart();
