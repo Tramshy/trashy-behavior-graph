@@ -28,7 +28,7 @@ namespace BehaviorGraph
                 }
                 catch
                 {
-                    Debug.LogError($"Value not able to be associated between: {nodeField} and {componentField}, for game object: {objectHoldingPanel.name}");
+                    Debug.LogError($"Value not able to be associated between: {nodeField} and {componentField}, for game object: {objectHoldingPanel.name}\nNode: {this.name}");
 
                     continue;
                 }
