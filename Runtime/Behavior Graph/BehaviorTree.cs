@@ -33,6 +33,7 @@ namespace BehaviorGraph
 
                 _currentNode = value;
                 _currentNode.OnNodeStart();
+                _currentNode.Transitions.ForEach((t) => t.TransitionCondition.ConditionEnter());
             }
         }
 

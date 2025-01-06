@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEngine;
 
 namespace BehaviorGraph.GraphEditor
 {
@@ -10,13 +11,24 @@ namespace BehaviorGraph.GraphEditor
             if (Path.GetExtension(assetPath) != ".asset")
                 return AssetDeleteResult.DidNotDelete;
 
-            BehaviorPanel toDelete = AssetDatabase.LoadAssetAtPath<BehaviorPanel>(assetPath);
+            BehaviorPanel toDeletePanel = AssetDatabase.LoadAssetAtPath<BehaviorPanel>(assetPath);
 
-            if (toDelete == null)
+            if (toDeletePanel == null)
+            {
+                NodeInstancesSerializer toDeleteSerializer = AssetDatabase.LoadAssetAtPath<NodeInstancesSerializer>(assetPath);
+
+                if (toDeleteSerializer != null)
+                {
+                    Debug.LogWarning("Do not attempt to delete or remove Instance Serializer, this will lead to a severe loss of data.");
+
+                    return AssetDeleteResult.FailedDelete;
+                }
+
                 return AssetDeleteResult.DidNotDelete;
+            }
 
-            string guid = toDelete.Identifier;
-            string jsonDataPath = $"Assets/Editor/Behavior Graph/Graph Saves/{guid}.json";
+            string guid = toDeletePanel.Identifier;
+            string jsonDataPath = $"Assets/Behavior Graph Saves/Editor/{guid}.json";
 
             if (File.Exists(jsonDataPath))
             {

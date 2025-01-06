@@ -22,6 +22,8 @@ namespace BehaviorGraph.GraphEditor
         public static BehaviorGraphView ThisGraphView;
         public static InspectorView ThisInspectorView;
 
+        private static NodeInstancesSerializer _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
+
         [MenuItem("Window/Behavior Graph Editor")]
         public static void OpenWindow()
         {
@@ -161,6 +163,8 @@ namespace BehaviorGraph.GraphEditor
             AssetDatabase.AddObjectToAsset(instance, CurrentBehaviorPanel);
             AssetDatabase.SaveAssets();
 
+            _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
+
             return instance;
         }
 
@@ -172,13 +176,22 @@ namespace BehaviorGraph.GraphEditor
             AssetDatabase.AddObjectToAsset(instance, CurrentBehaviorPanel);
             AssetDatabase.SaveAssets();
 
+            _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
+
             return instance;
         }
-
         public static void DeleteDataNode(Node node)
         {
             CurrentBehaviorPanel.PanelNodes.Remove(node);
+            _serializer.NodeInstances.RemoveFromInstances(node.UniqueID);
             AssetDatabase.RemoveObjectFromAsset(node);
+            AssetDatabase.SaveAssets();
+        }
+
+        public static void DeleteDataTransition(NodeTransitionObject transition)
+        {
+            _serializer.NodeInstances.RemoveFromInstances(transition.UniqueID);
+            AssetDatabase.RemoveObjectFromAsset(transition);
             AssetDatabase.SaveAssets();
         }
 
@@ -196,6 +209,8 @@ namespace BehaviorGraph.GraphEditor
                 return;
 
             Rect pos = new Rect();
+
+            _serializer.Save();
 
             foreach (BehaviorGraphNode node in CurrentData.Nodes)
             {

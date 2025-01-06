@@ -326,11 +326,7 @@ namespace BehaviorGraph.GraphEditor
                     continue;
                 }
 
-                n.Ports.ForEach((p) =>
-                {
-                    AssetDatabase.RemoveObjectFromAsset(p.Transition);
-                    AssetDatabase.SaveAssets();
-                });
+                n.Ports.ForEach((p) => BehaviorGraphEditor.DeleteDataTransition(p.Transition));
                 n.Ports.Clear();
 
                 BehaviorGraphEditor.DeleteDataNode(n.ThisNode);
@@ -381,16 +377,16 @@ namespace BehaviorGraph.GraphEditor
             {
                 BehaviorGraphPort port = element as BehaviorGraphPort;
 
-                if (port == null)
-                    continue;
-
-                if (!port.connected)
+                if (port != null && !port.connected)
                     toRemove.Add(port);
             }
 
             foreach (BehaviorGraphPort p in toRemove)
             {
                 node.outputContainer.Remove(p);
+                node.Ports.Remove(p);
+
+                BehaviorGraphEditor.DeleteDataTransition(p.Transition);
 
                 AssetDatabase.RemoveObjectFromAsset(p.Transition);
                 AssetDatabase.SaveAssets();

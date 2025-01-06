@@ -24,7 +24,7 @@ namespace BehaviorGraph.GraphEditor
             Ports = ports;
             LinkNodes = linkNodes;
 
-            GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(node));
+            GUID = node.UniqueID;
         }
 
         public Node ThisNode;

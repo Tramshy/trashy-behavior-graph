@@ -28,7 +28,7 @@ namespace BehaviorGraph.GraphEditor
             port.Transition = transition;
             port.AddManipulator(port.m_EdgeConnector);
 
-            port.GUID = AssetDatabase.AssetPathToGUID(AssetDatabase.GetAssetPath(transition));
+            port.GUID = transition.UniqueID;
 
             return port;
         }

@@ -6,6 +6,31 @@ namespace BehaviorGraph
 {
     public class BehaviorGraphInspectSO : ScriptableObject
     {
+        [SerializeField] private string _uniqueID;
+
+        private void OnEnable()
+        {
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(_uniqueID))
+            {
+                _uniqueID = Guid.NewGuid().ToString();
+                UnityEditor.EditorUtility.SetDirty(this);
+            }
+#endif
+        }
+
+        public string UniqueID
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return _uniqueID;
+#else
+                throw new System.InvalidOperationException("UniqueID is editor-only and cannot be accessed at runtime.");
+#endif
+            }
+        }
+
         // Would be great to add drag and drop feature instead of manually typing, but Unity hates making things easy.
         public FieldBindingData[] FieldOverrides = new FieldBindingData[0];
 

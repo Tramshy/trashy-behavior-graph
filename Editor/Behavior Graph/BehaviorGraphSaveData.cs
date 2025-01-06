@@ -61,7 +61,6 @@ namespace BehaviorGraph.GraphEditor
 
             try
             {
-                // Can't load from GUID because it uses custom GUID not the kind that interacts with meta data.
                 string json = File.ReadAllText(path + guid + ".json");
 
                 BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(json);
@@ -73,9 +72,11 @@ namespace BehaviorGraph.GraphEditor
                 {
                     foreach (BehaviorGraphNode n in data.Nodes)
                     {
-                        n.ThisNode = AssetDatabase.LoadAssetAtPath<Node>(AssetDatabase.GUIDToAssetPath(n.GUID));
+                        NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
-                        n.Ports.ForEach((p) => p.Transition = AssetDatabase.LoadAssetAtPath<NodeTransitionObject>(AssetDatabase.GUIDToAssetPath(p.GUID)));
+                        n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
+
+                        n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
                     }
                 }
 
@@ -99,9 +100,11 @@ namespace BehaviorGraph.GraphEditor
                         {
                             foreach (BehaviorGraphNode n in data.Nodes)
                             {
-                                n.ThisNode = AssetDatabase.LoadAssetAtPath<Node>(AssetDatabase.GUIDToAssetPath(n.GUID));
+                                NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
-                                n.Ports.ForEach((p) => p.Transition = AssetDatabase.LoadAssetAtPath<NodeTransitionObject>(AssetDatabase.GUIDToAssetPath(p.GUID)));
+                                n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
+
+                                n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
                             }
                         }
 
