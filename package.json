@@ -1,6 +1,6 @@
 {
   "name": "com.tramshy.trashy-behavior-graph",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "displayName": "Behavior Graph",
   "description": "A package containing a custom graph editor, that can be used to create simple, or complex, AI systems",
   "unity": "2022.3",

@@ -22,7 +22,7 @@ namespace BehaviorGraph.GraphEditor
         public static BehaviorGraphView ThisGraphView;
         public static InspectorView ThisInspectorView;
 
-        private static NodeInstancesSerializer _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
+        private static NodeInstancesSerializer _serializer;
 
         [MenuItem("Window/Behavior Graph Editor")]
         public static void OpenWindow()
@@ -33,6 +33,11 @@ namespace BehaviorGraph.GraphEditor
             BehaviorGraphEdge.OnEdgeSelected = InspectorSelectionUpdate;
 
             UpdateGraphViewData();
+        }
+
+        private void OnEnable()
+        {
+            _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
         }
 
         public void CreateGUI()
