@@ -13,10 +13,10 @@ namespace BehaviorGraph
         public override bool Condition()
         {
             if (_compareOption == CompareOptions.GreaterThan)
-                return A.Value > B.Value;
+                return A.Value >= B.Value;
             else
             {
-                return A.Value < B.Value;
+                return A.Value <= B.Value;
             }
         }
     }
