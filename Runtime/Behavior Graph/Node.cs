@@ -6,7 +6,7 @@ namespace BehaviorGraph
 {
     public abstract class Node : BehaviorGraphInspectSO
     {
-        [HideInInspector] public List<NodeTransition> Transitions = new List<NodeTransition>();
+        [HideInInspector, NonSerialized] public List<NodeTransition> Transitions = new List<NodeTransition>();
 
         public enum Statuses { Success, Running, Failure }
 
