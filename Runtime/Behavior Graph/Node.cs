@@ -6,11 +6,11 @@ namespace BehaviorGraph
 {
     public abstract class Node : BehaviorGraphInspectSO
     {
-        [HideInInspector, NonSerialized] public List<NodeTransition> Transitions = new List<NodeTransition>();
+        [HideInInspector] public List<NodeTransition> Transitions = new List<NodeTransition>();
 
         public enum Statuses { Success, Running, Failure }
 
-        private Statuses _current = Statuses.Running;
+        [NonSerialized] private Statuses _current = Statuses.Running;
         public Statuses CurrentStatus { get => _current; protected set => _current = value; }
 
         public abstract void OnNodeStart();
