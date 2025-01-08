@@ -9,7 +9,6 @@ namespace BehaviorGraph.GraphEditor
     {
         /*[HideInInspector]*/ public NodeInstanceManager NodeInstances;
 
-#if UNITY_EDITOR
         public void SetUpNodeInstances()
         {
             NodeInstances = new NodeInstanceManager();
@@ -32,6 +31,5 @@ namespace BehaviorGraph.GraphEditor
         {
             EditorUtility.SetDirty(this);
         }
-#endif
     }
 }
