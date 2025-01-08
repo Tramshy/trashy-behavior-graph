@@ -75,6 +75,11 @@ namespace BehaviorGraph.GraphEditor
                         NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
                         n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
+                        n.ThisNode.Transitions.ForEach((t) =>
+                        {
+                            t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
+                            t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
+                        });
 
                         n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
                     }
@@ -103,6 +108,11 @@ namespace BehaviorGraph.GraphEditor
                                 NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
                                 n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
+                                n.ThisNode.Transitions.ForEach((t) =>
+                                {
+                                    t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
+                                    t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
+                                });
 
                                 n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
                             }

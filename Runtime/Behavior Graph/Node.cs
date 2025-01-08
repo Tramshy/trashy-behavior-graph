@@ -29,11 +29,15 @@ namespace BehaviorGraph
         public NodeTransition(NodeTransitionObject transitionObject, Node next)
         {
             TransitionCondition = transitionObject;
+            TGUID = transitionObject.UniqueID;
             NextInLine = next;
+            NGUID = next.UniqueID;
         }
 
         public NodeTransitionObject TransitionCondition;
+        public string TGUID;
 
         public Node NextInLine;
+        public string NGUID;
     }
 }
