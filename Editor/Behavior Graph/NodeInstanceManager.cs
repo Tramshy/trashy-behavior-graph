@@ -9,10 +9,10 @@ namespace BehaviorGraph.GraphEditor
     [Serializable]
     public class NodeInstanceManager
     {
-        [SerializeField] private List<Instance> _instances = new List<Instance>();
+        [SerializeField] internal List<Instance> instances = new List<Instance>();
 
         [Serializable]
-        private class Instance
+        internal class Instance
         {
             public Instance(string id, BehaviorGraphInspectSO inspect)
             {
@@ -26,28 +26,28 @@ namespace BehaviorGraph.GraphEditor
 
         public void AddToInstances(BehaviorGraphInspectSO node, string uniqueID)
         {
-            _instances.Add(new Instance(uniqueID, node));
+            instances.Add(new Instance(uniqueID, node));
         }
 
         public void RemoveFromInstances(string id)
         {
             Instance toRemove = null;
 
-            foreach (var instance in _instances)
+            foreach (var instance in instances)
             {
                 if (instance.ID == id)
                     toRemove = instance;
             }
 
             if (toRemove != null)
-                _instances.Remove(toRemove);
+                instances.Remove(toRemove);
         }
 
         public BehaviorGraphInspectSO GetNodeInstance(string id)
         {
             BehaviorGraphInspectSO toReturn = null;
 
-            foreach (var instance in _instances)
+            foreach (var instance in instances)
             {
                 if (instance.ID == id)
                     toReturn = instance.InspectObject;

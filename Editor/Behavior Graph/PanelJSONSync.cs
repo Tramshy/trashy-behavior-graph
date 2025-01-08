@@ -45,4 +45,13 @@ namespace BehaviorGraph.GraphEditor
             return AssetDeleteResult.DidNotDelete;
         }
     }
+
+    public class CleanUpInstances : AssetPostprocessor
+    {
+        private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths)
+        {
+            if (deletedAssets.Length > 0)
+                Resources.Load<NodeInstancesSerializer>("Instance Serializer").ClearEmptyInstances();
+        }
+    }
 }
