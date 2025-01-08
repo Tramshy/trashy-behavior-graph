@@ -32,6 +32,8 @@ namespace BehaviorGraph.GraphEditor
             BehaviorGraphNode.OnNodeSelected = InspectorSelectionUpdate;
             BehaviorGraphEdge.OnEdgeSelected = InspectorSelectionUpdate;
 
+            SerializeDataInitialization.CreateAssetIfNeeded();
+
             UpdateGraphViewData();
         }
 

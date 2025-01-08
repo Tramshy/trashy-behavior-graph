@@ -20,7 +20,6 @@ namespace BehaviorGraph.GraphEditor
                 Debug.Log("Created 'SavedData' folder in the Assets directory for Behavior Graph save files.");
             }
 
-
             if (!Directory.Exists(serializerPath))
             {
                 Directory.CreateDirectory(serializerPath);
@@ -28,14 +27,18 @@ namespace BehaviorGraph.GraphEditor
 
                 Debug.Log("Created 'Resources' folder in the Assets directory for Node Instance Serialization.");
             }
+        }
 
-            serializerPath += "/Instance Serializer.asset";
+        public static void CreateAssetIfNeeded()
+        {
+            string serializerPath = "Assets/Behavior Graph Saves/Editor/Resources/Instance Serializer.asset";
 
             if (!File.Exists(serializerPath))
             {
                 NodeInstancesSerializer serializer = ScriptableObject.CreateInstance(typeof(NodeInstancesSerializer)) as NodeInstancesSerializer;
 
                 serializer.SetUpNodeInstances();
+                EditorUtility.SetDirty(serializer);
 
                 AssetDatabase.CreateAsset(serializer, serializerPath);
                 AssetDatabase.SaveAssets();
