@@ -29,17 +29,14 @@ namespace BehaviorGraph.GraphEditor
         {
             WND = GetWindow<BehaviorGraphEditor>();
 
+            _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
+
             BehaviorGraphNode.OnNodeSelected = InspectorSelectionUpdate;
             BehaviorGraphEdge.OnEdgeSelected = InspectorSelectionUpdate;
 
             SerializeDataInitialization.CreateAssetIfNeeded();
 
             UpdateGraphViewData();
-        }
-
-        private void OnEnable()
-        {
-            _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
         }
 
         public void CreateGUI()
@@ -170,7 +167,12 @@ namespace BehaviorGraph.GraphEditor
             AssetDatabase.AddObjectToAsset(instance, CurrentBehaviorPanel);
             AssetDatabase.SaveAssets();
 
-            _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
+            if (_serializer != null)
+                _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
+            else
+            {
+                Resources.Load<NodeInstancesSerializer>("Instance Serializer").NodeInstances.AddToInstances(instance, instance.UniqueID);
+            }
 
             return instance;
         }
