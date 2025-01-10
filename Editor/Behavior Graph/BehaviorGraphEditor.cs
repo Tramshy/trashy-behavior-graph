@@ -225,7 +225,24 @@ namespace BehaviorGraph.GraphEditor
                 node.XPosition = pos.x;
                 node.YPosition = pos.y;
 
-                node.Ports.Clear();
+                node.LinkNodes.Clear();
+
+                for (int i = 0; i < node.outputContainer.childCount; i++)
+                {
+                    BehaviorGraphPort p = node.outputContainer.Children().ToArray()[i] as BehaviorGraphPort;
+
+                    if (p == null)
+                        continue;
+
+                    Edge[] temp = p.connections.ToArray();
+                    // Will only ever have one edge since all BehaviorGraphPort have a capacity of single.
+                    Edge connection = temp.Length > 0 ? temp[0] : null;
+
+                    if (connection != null)
+                        node.LinkNodes.Add(new BehaviorGraphConnection(i, (connection.input.node as BehaviorGraphNode).Identifier));
+                }
+
+                /*node.Ports.Clear();
                 node.LinkNodes.Clear();
                 node.ThisNode.Transitions.Clear();
 
@@ -262,7 +279,7 @@ namespace BehaviorGraph.GraphEditor
 
                     NodeTransition nodeTransition = new NodeTransition(transition, nextNode);
                     node.ThisNode.Transitions.Add(nodeTransition);
-                }
+                }*/
             }
 
             GraphSave.SaveDataAsJSON(CurrentData, CurrentData.Identifier);

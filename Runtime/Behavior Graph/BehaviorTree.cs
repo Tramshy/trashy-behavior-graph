@@ -7,13 +7,15 @@ namespace BehaviorGraph
         [SerializeField] private BehaviorPanel _panel;
         public BehaviorPanel Panel { get => _panel; private set
             {
-                if (value.MonoBehaviorDataComponent != null)
+                if (value.MonoBehaviorDataComponent != null && !value.HasLoaded)
                 {
                     foreach (Node n in value.PanelNodes)
                     {
                         n.SetUpFields(gameObject, Panel.MonoBehaviorDataComponent);
                         n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, Panel.MonoBehaviorDataComponent));
                     }
+
+                    value.HasLoaded = true;
                 }
 
                 CurrentNode = value.StartingNode;
@@ -40,6 +42,11 @@ namespace BehaviorGraph
         private void Awake()
         {
             Panel = _panel;
+        }
+
+        public void SwitchBehaviorPanel(BehaviorPanel panel)
+        {
+            Panel = panel;
         }
 
         private void SwitchCurrentNode(Node newNode)

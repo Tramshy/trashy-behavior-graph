@@ -13,6 +13,8 @@ namespace BehaviorGraph
         [HideInInspector] public string Identifier = "";
         [SerializeField] private string _dataComponentName;
 
+        [HideInInspector, NonSerialized] public bool HasLoaded = false; 
+
         private string _previousName;
         private Type _component;
         [Tooltip("Inherits: BehaviorData")]

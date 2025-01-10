@@ -247,7 +247,7 @@ namespace BehaviorGraph.GraphEditor
             BehaviorGraphEditor.CurrentData.Nodes.Add(nodeToAdd);
         }
 
-        public BehaviorGraphNode CreateNewVisualNode(Node node, Rect spawnPos)
+        private BehaviorGraphNode CreateNewVisualNode(Node node, Rect spawnPos)
         {
             var nodeToAdd = new BehaviorGraphNode(node, node.GetType().Name, false, new List<BehaviorGraphPort>(), new List<BehaviorGraphConnection>());
             nodeToAdd.SetPosition(spawnPos);
@@ -255,7 +255,7 @@ namespace BehaviorGraph.GraphEditor
 
             SetUpVisualNode(nodeToAdd, nodeToAdd.Name);
             nodeToAdd.RefreshExpandedState();
-
+            
             return nodeToAdd;
         }
 
