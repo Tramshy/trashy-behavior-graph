@@ -13,6 +13,8 @@ namespace BehaviorGraph.GraphEditor
     {
         protected BehaviorGraphPort(Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type) : base(portOrientation, portDirection, portCapacity, type) { }
 
+        public NodeTransition TransitionData;
+
         public NodeTransitionObject Transition;
         public string GUID;
 
@@ -97,6 +99,13 @@ namespace BehaviorGraph.GraphEditor
                 edge.input.Connect(item);
                 edge.output.Connect(item);
             }
+
+            NodeTransitionObject transition = (edge.output as BehaviorGraphPort).Transition;
+            Node thisNode = (edge.output.node as BehaviorGraphNode).ThisNode, nextNode = (edge.input.node as BehaviorGraphNode).ThisNode;
+
+            var temp = new NodeTransition(transition, nextNode);
+            (edge.output as BehaviorGraphPort).TransitionData = temp;
+            thisNode.Transitions.Add(temp);
         }
     }
 }

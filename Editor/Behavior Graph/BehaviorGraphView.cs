@@ -295,7 +295,7 @@ namespace BehaviorGraph.GraphEditor
 
             foreach (var element in graphViewChange.elementsToRemove)
             {
-                Edge e = element as Edge;
+                BehaviorGraphEdge e = element as BehaviorGraphEdge;
 
                 if (e != null)
                 {
@@ -308,6 +308,8 @@ namespace BehaviorGraph.GraphEditor
                     });
 
                     toRemove.ForEach((n) => (e.output.node as BehaviorGraphNode).LinkNodes.Remove(n));
+
+                    (e.output.node as BehaviorGraphNode).ThisNode.Transitions.Remove((e.output as BehaviorGraphPort).TransitionData);
 
                     continue;
                 }

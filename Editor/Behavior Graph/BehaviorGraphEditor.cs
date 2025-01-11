@@ -189,6 +189,7 @@ namespace BehaviorGraph.GraphEditor
 
             return instance;
         }
+
         public static void DeleteDataNode(Node node)
         {
             CurrentBehaviorPanel.PanelNodes.Remove(node);
