@@ -7,7 +7,7 @@ namespace BehaviorGraph.GraphEditor
 {
     public class NodeInstancesSerializer : ScriptableObject
     {
-        /*[HideInInspector]*/ public NodeInstanceManager NodeInstances;
+        [HideInInspector] public NodeInstanceManager NodeInstances;
 
         public void SetUpNodeInstances()
         {

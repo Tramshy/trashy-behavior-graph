@@ -37,9 +37,7 @@ namespace BehaviorGraph.GraphEditor
                 {
                     SerializedProperty property = serializedObject.FindProperty(field.Name);
                     if (property != null)
-                    {
                         EditorGUILayout.PropertyField(property, true);
-                    }
                 }
             }
 

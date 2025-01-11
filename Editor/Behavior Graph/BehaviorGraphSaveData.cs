@@ -65,10 +65,18 @@ namespace BehaviorGraph.GraphEditor
 
                 BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(json);
 
+                bool needsManuelSet = false;
+
+                data.Nodes.ForEach((n) =>
+                {
+                    if (n.ThisNode == null)
+                        needsManuelSet = true;
+                });
+
                 // Will always be at least one element due to Start Node.
                 // This is only needed for when Unity is restarted.
                 // Upon restart Unity will lose its in-memory reference to the scriptable object and manual reassignment is necessary.
-                if (data.Nodes[0].ThisNode == null)
+                if (needsManuelSet)
                 {
                     foreach (BehaviorGraphNode n in data.Nodes)
                     {
@@ -101,7 +109,15 @@ namespace BehaviorGraph.GraphEditor
                     {
                         BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(file);
 
-                        if (data.Nodes[0].ThisNode == null)
+                        bool needsManuelSet = false;
+
+                        data.Nodes.ForEach((n) =>
+                        {
+                            if (n.ThisNode == null)
+                                needsManuelSet = true;
+                        });
+
+                        if (needsManuelSet)
                         {
                             foreach (BehaviorGraphNode n in data.Nodes)
                             {

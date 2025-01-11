@@ -6,7 +6,7 @@ namespace BehaviorGraph
 {
     public class BehaviorGraphInspectSO : ScriptableObject
     {
-        [SerializeField] private string _uniqueID;
+        [SerializeField, HideInInspector] private string _uniqueID;
 
         private void OnEnable()
         {

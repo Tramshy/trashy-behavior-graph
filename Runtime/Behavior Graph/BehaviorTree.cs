@@ -67,11 +67,16 @@ namespace BehaviorGraph
                 return;
 
             CurrentNode.OnNodeUpdate();
-            CurrentNode.Transitions.ForEach((t) =>
+
+            foreach (var t in CurrentNode.Transitions)
             {
                 if (t.TransitionCondition.Condition())
+                {
                     SwitchCurrentNode(t.NextInLine);
-            });
+
+                    break;
+                }
+            }
         }
     }
 }

@@ -36,7 +36,11 @@ namespace BehaviorGraph.GraphEditor
             foreach (var instance in instances)
             {
                 if (instance.ID == id)
+                {
                     toRemove = instance;
+
+                    break;
+                }
             }
 
             if (toRemove != null)

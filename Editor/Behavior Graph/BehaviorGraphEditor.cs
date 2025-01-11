@@ -22,15 +22,13 @@ namespace BehaviorGraph.GraphEditor
         public static BehaviorGraphView ThisGraphView;
         public static InspectorView ThisInspectorView;
 
-        private static NodeInstancesSerializer _serializer;
+        private static NodeInstancesSerializer _serializer { get => Resources.Load<NodeInstancesSerializer>("Instance Serializer"); }
 
         [MenuItem("Window/Behavior Graph Editor")]
         public static void OpenWindow()
         {
             WND = GetWindow<BehaviorGraphEditor>();
-
-            _serializer = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
-
+            
             BehaviorGraphNode.OnNodeSelected = InspectorSelectionUpdate;
             BehaviorGraphEdge.OnEdgeSelected = InspectorSelectionUpdate;
 
@@ -167,12 +165,7 @@ namespace BehaviorGraph.GraphEditor
             AssetDatabase.AddObjectToAsset(instance, CurrentBehaviorPanel);
             AssetDatabase.SaveAssets();
 
-            if (_serializer != null)
-                _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
-            else
-            {
-                Resources.Load<NodeInstancesSerializer>("Instance Serializer").NodeInstances.AddToInstances(instance, instance.UniqueID);
-            }
+            _serializer.NodeInstances.AddToInstances(instance, instance.UniqueID);
 
             return instance;
         }
