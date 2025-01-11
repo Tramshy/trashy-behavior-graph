@@ -127,10 +127,20 @@ namespace BehaviorGraph.GraphEditor
 
             GenerateNewInPort(node);
 
+            BehaviorGraphPort[] newPorts = new BehaviorGraphPort[node.Ports.Count];
+            int i = 0;
+
             foreach (BehaviorGraphPort p in node.Ports)
             {
                 //GenerateNewOutPort(node, p.Transition.GetType());
-                RegenerateOutPort(node, p.Transition);
+                newPorts[i] = RegenerateOutPort(node, p.Transition);
+
+                i++;
+            }
+
+            for (int j = 0; j < newPorts.Length; j++)
+            {
+                node.Ports[j] = newPorts[j];
             }
         }
 
@@ -352,7 +362,7 @@ namespace BehaviorGraph.GraphEditor
             return newOutPort;
         }
 
-        private Port RegenerateOutPort(BehaviorGraphNode node, NodeTransitionObject transition)
+        private BehaviorGraphPort RegenerateOutPort(BehaviorGraphNode node, NodeTransitionObject transition)
         {
             BehaviorGraphPort newOutPort = BehaviorGraphPort.Create(transition);
             node.outputContainer.Add(newOutPort);
