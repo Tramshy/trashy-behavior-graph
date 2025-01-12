@@ -13,7 +13,7 @@ namespace BehaviorGraph
         [Tooltip("Leave 0 to check every frame, otherwise input amount of time, in seconds, between checks.")]
         public DataField<float> TimeBetweenRandomChecks;
 
-        private float _timePassed;
+        [System.NonSerialized] private float _timePassed;
 
         public override bool Condition()
         {
@@ -30,6 +30,11 @@ namespace BehaviorGraph
             }
 
             return Random.Range(Min.Value, Max.Value) >= Chance.Value;
+        }
+
+        public override void ConditionExit()
+        {
+            _timePassed = 0;
         }
     }
 }
