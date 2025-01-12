@@ -26,8 +26,7 @@ namespace BehaviorGraph
 
         public override void ResetNode()
         {
-            Timer?.StopTimer();
-            Timer = null;
+            Timer.CancelTimer(ref Timer);
         }
     }
 }
