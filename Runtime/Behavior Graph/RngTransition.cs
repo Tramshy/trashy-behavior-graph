@@ -27,6 +27,8 @@ namespace BehaviorGraph
 
                     return Random.Range(Min.Value, Max.Value) >= Chance.Value;
                 }
+
+                return false;
             }
 
             return Random.Range(Min.Value, Max.Value) >= Chance.Value;
