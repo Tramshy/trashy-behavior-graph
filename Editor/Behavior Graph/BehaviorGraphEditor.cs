@@ -44,7 +44,7 @@ namespace BehaviorGraph.GraphEditor
 
             m_VisualTreeAsset.CloneTree(root);
 
-            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
             root.styleSheets.Add(styleSheet);
 
             ThisGraphView = root.Q<BehaviorGraphView>();

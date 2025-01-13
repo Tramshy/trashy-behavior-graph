@@ -59,91 +59,63 @@ namespace BehaviorGraph.GraphEditor
             if (!Directory.Exists(path))
                 throw new Exception($"Directory does not exist: {path}");
 
-            try
+            string json = File.ReadAllText(path + guid + ".json");
+
+            BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(json);
+
+            bool needsManuelSet = false;
+
+            foreach (var n in data.Nodes)
             {
-                string json = File.ReadAllText(path + guid + ".json");
-
-                BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(json);
-
-                bool needsManuelSet = false;
-
-                data.Nodes.ForEach((n) =>
+                if (n.ThisNode == null)
                 {
-                    if (n.ThisNode == null)
+                    needsManuelSet = true;
+
+                    break;
+                }
+
+                foreach (var t in n.ThisNode.Transitions)
+                {
+                    if (t.TransitionCondition || t.NextInLine == null)
+                    {
                         needsManuelSet = true;
-                });
 
-                // Will always be at least one element due to Start Node.
-                // This is only needed for when Unity is restarted.
-                // Upon restart Unity will lose its in-memory reference to the scriptable object and manual reassignment is necessary.
-                if (needsManuelSet)
-                {
-                    foreach (BehaviorGraphNode n in data.Nodes)
-                    {
-                        NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
-
-                        n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
-                        n.ThisNode.Transitions.ForEach((t) =>
-                        {
-                            t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
-                            t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
-                        });
-
-                        n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
+                        break;
                     }
                 }
 
-                return data;
+                foreach (var p in n.Ports)
+                {
+                    if (p.Transition == null)
+                    {
+                        needsManuelSet = true;
+
+                        break;
+                    }
+                }
             }
-            catch { }
 
-            string[] jsonFiles = Directory.GetFiles(path, "*.json", SearchOption.AllDirectories);
-
-            foreach (string file in jsonFiles)
+            // Will always be at least one element due to Start Node.
+            // This is only needed for when Unity is restarted.
+            // Upon restart Unity will lose its in-memory reference to the scriptable object and manual reassignment is necessary.
+            if (needsManuelSet)
             {
-                try
+                foreach (BehaviorGraphNode n in data.Nodes)
                 {
-                    string content = File.ReadAllText(file);
+                    NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
-                    if (content.Contains(guid))
+                    n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
+                    n.ThisNode.Transitions.ForEach((t) =>
                     {
-                        BehaviorGraphSaveData data = JsonUtility.FromJson<BehaviorGraphSaveData>(file);
+                        t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
+                        t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
+                    });
 
-                        bool needsManuelSet = false;
-
-                        data.Nodes.ForEach((n) =>
-                        {
-                            if (n.ThisNode == null)
-                                needsManuelSet = true;
-                        });
-
-                        if (needsManuelSet)
-                        {
-                            foreach (BehaviorGraphNode n in data.Nodes)
-                            {
-                                NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
-
-                                n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
-                                n.ThisNode.Transitions.ForEach((t) =>
-                                {
-                                    t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
-                                    t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
-                                });
-
-                                n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
-                            }
-                        }
-
-                        return data;
-                    }
-                }
-                catch
-                {
-                    throw new Exception($"Failed to read file {file}");
+                    n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
                 }
             }
 
-            throw new Exception($"No file found at {path}");
+            return data;
         }
 
         [Obsolete]

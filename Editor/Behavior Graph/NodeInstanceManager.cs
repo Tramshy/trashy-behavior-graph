@@ -54,7 +54,11 @@ namespace BehaviorGraph.GraphEditor
             foreach (var instance in instances)
             {
                 if (instance.ID == id)
+                {
                     toReturn = instance.InspectObject;
+
+                    break;
+                }
             }
 
             return toReturn;
