@@ -11,8 +11,8 @@ namespace BehaviorGraph
 
         public DataField<float> TargetDistance;
 
-        private enum CompareOptions { GreaterThan, LessThan }
-        [SerializeField] private CompareOptions _compareOption;
+        public enum CompareOptions { GreaterThan, LessThan }
+        [SerializeField] public CompareOptions _compareOption;
 
         public override bool Condition()
         {
