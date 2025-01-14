@@ -24,7 +24,7 @@ namespace BehaviorGraph.GraphEditor
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
 
-            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/trashy-behavior-graph/trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
             styleSheets.Add(styleSheet);
 
             focusable = true;
