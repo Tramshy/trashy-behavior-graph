@@ -237,45 +237,6 @@ namespace BehaviorGraph.GraphEditor
                     if (connection != null)
                         node.LinkNodes.Add(new BehaviorGraphConnection(i, (connection.input.node as BehaviorGraphNode).Identifier));
                 }
-
-                /*node.Ports.Clear();
-                node.LinkNodes.Clear();
-                node.ThisNode.Transitions.Clear();
-
-                int i = 0;
-
-                foreach (var child in node.outputContainer.Children())
-                {
-                    BehaviorGraphPort p = child as BehaviorGraphPort;
-
-                    if (p == null)
-                        continue;
-
-                    node.Ports.Add(p);
-
-                    Edge[] temp = p.connections.ToArray();
-                    // Will only ever have one edge since all BehaviorGraphPort have a capacity of single.
-                    Edge connection = temp.Length > 0 ? temp[0] : null;
-
-                    if (connection != null)
-                        node.LinkNodes.Add(new BehaviorGraphConnection(i, (connection.input.node as BehaviorGraphNode).Identifier));
-
-                    i++;
-                }
-
-                foreach (BehaviorGraphPort p in node.Ports)
-                {
-                    var transition = p.Transition;
-
-                    Edge[] temp = p.connections.ToArray();
-                    Node nextNode = temp.Length > 0 ? (temp[0].input.node as BehaviorGraphNode).ThisNode : null;
-
-                    if (nextNode == null)
-                        continue;
-
-                    NodeTransition nodeTransition = new NodeTransition(transition, nextNode);
-                    node.ThisNode.Transitions.Add(nodeTransition);
-                }*/
             }
 
             GraphSave.SaveDataAsJSON(CurrentData, CurrentData.Identifier);

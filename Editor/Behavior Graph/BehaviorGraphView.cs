@@ -132,8 +132,7 @@ namespace BehaviorGraph.GraphEditor
 
             foreach (BehaviorGraphPort p in node.Ports)
             {
-                //GenerateNewOutPort(node, p.Transition.GetType());
-                newPorts[i] = RegenerateOutPort(node, p.Transition);
+                newPorts[i] = RegenerateOutPort(node, p.Transition, p.TransitionDataGUID);
 
                 i++;
             }
@@ -273,7 +272,7 @@ namespace BehaviorGraph.GraphEditor
         {
             if (graphViewChange.elementsToRemove == null)
                 return graphViewChange;
-
+            
             foreach (var e in graphViewChange.elementsToRemove)
             {
                 if (e is BehaviorGraphNode n && n.ThisNode == BehaviorGraphEditor.ThisInspectorView.CurrentData)
@@ -306,7 +305,7 @@ namespace BehaviorGraph.GraphEditor
             foreach (var element in graphViewChange.elementsToRemove)
             {
                 BehaviorGraphEdge e = element as BehaviorGraphEdge;
-
+                
                 if (e != null)
                 {
                     List<BehaviorGraphConnection> toRemove = new List<BehaviorGraphConnection>();
@@ -319,7 +318,9 @@ namespace BehaviorGraph.GraphEditor
 
                     toRemove.ForEach((n) => (e.output.node as BehaviorGraphNode).LinkNodes.Remove(n));
 
-                    (e.output.node as BehaviorGraphNode).ThisNode.Transitions.Remove((e.output as BehaviorGraphPort).TransitionData);
+                    //Debug.Log((e.output.node as BehaviorGraphNode).ThisNode.Transitions.Contains((e.output as BehaviorGraphPort).TransitionData) + "\n" + (e.output as BehaviorGraphPort).TransitionData);
+                    (e.output.node as BehaviorGraphNode).ThisNode.RemoveFromTransitions((e.output as BehaviorGraphPort).TransitionDataGUID);
+                    EditorUtility.SetDirty((e.output.node as BehaviorGraphNode).ThisNode);
 
                     continue;
                 }
@@ -348,6 +349,9 @@ namespace BehaviorGraph.GraphEditor
             if (startNode != null)
                 graphViewChange.elementsToRemove.Remove(startNode);
 
+            AssetDatabase.SaveAssets();
+            AssetDatabase.Refresh();
+
             return graphViewChange;
         }
 
@@ -362,9 +366,9 @@ namespace BehaviorGraph.GraphEditor
             return newOutPort;
         }
 
-        private BehaviorGraphPort RegenerateOutPort(BehaviorGraphNode node, NodeTransitionObject transition)
+        private BehaviorGraphPort RegenerateOutPort(BehaviorGraphNode node, NodeTransitionObject transition, string guid)
         {
-            BehaviorGraphPort newOutPort = BehaviorGraphPort.Create(transition);
+            BehaviorGraphPort newOutPort = BehaviorGraphPort.Create(transition, guid);
             node.outputContainer.Add(newOutPort);
             node.RefreshPorts();
 

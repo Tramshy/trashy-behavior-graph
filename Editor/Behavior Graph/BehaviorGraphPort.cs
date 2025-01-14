@@ -13,21 +13,23 @@ namespace BehaviorGraph.GraphEditor
     {
         protected BehaviorGraphPort(Orientation portOrientation, Direction portDirection, Capacity portCapacity, Type type) : base(portOrientation, portDirection, portCapacity, type) { }
 
-        public NodeTransition TransitionData;
+        public string TransitionDataGUID;
 
         public NodeTransitionObject Transition;
         public string GUID;
 
-        public static BehaviorGraphPort Create(NodeTransitionObject transition)
+        public static BehaviorGraphPort Create(NodeTransitionObject transition, string data = "")
         {
             BehaviorGraphPort port = new BehaviorGraphPort(Orientation.Horizontal, Direction.Output, Capacity.Single, typeof(NodeTransitionObject))
             {
                 name = transition.GetType().Name,
-                portName = transition.GetType().Name,
-                m_EdgeConnector = new EdgeConnector<BehaviorGraphEdge>(new DefaultEdgeConnectorListener())
+                portName = transition.GetType().Name
             };
 
             port.Transition = transition;
+            port.TransitionDataGUID = data;
+
+            port.m_EdgeConnector = new EdgeConnector<BehaviorGraphEdge>(new DefaultEdgeConnectorListener(port));
             port.AddManipulator(port.m_EdgeConnector);
 
             port.GUID = transition.UniqueID;
@@ -44,11 +46,15 @@ namespace BehaviorGraph.GraphEditor
 
         private List<GraphElement> m_EdgesToDelete;
 
-        public DefaultEdgeConnectorListener()
+        private BehaviorGraphPort _calling;
+
+        public DefaultEdgeConnectorListener(BehaviorGraphPort calling)
         {
             m_EdgesToCreate = new List<Edge>();
             m_EdgesToDelete = new List<GraphElement>();
             m_GraphViewChange.edgesToCreate = m_EdgesToCreate;
+
+            _calling = calling;
         }
 
         public void OnDropOutsidePort(Edge edge, Vector2 position)
@@ -100,11 +106,11 @@ namespace BehaviorGraph.GraphEditor
                 edge.output.Connect(item);
             }
 
-            NodeTransitionObject transition = (edge.output as BehaviorGraphPort).Transition;
-            Node thisNode = (edge.output.node as BehaviorGraphNode).ThisNode, nextNode = (edge.input.node as BehaviorGraphNode).ThisNode;
+            Node thisNode = (_calling.node as BehaviorGraphNode).ThisNode, nextNode = (edge.input.node as BehaviorGraphNode).ThisNode;
+            NodeTransitionObject transition = _calling.Transition;
 
             var temp = new NodeTransition(transition, nextNode);
-            (edge.output as BehaviorGraphPort).TransitionData = temp;
+            _calling.TransitionDataGUID = temp.GUID;
             thisNode.Transitions.Add(temp);
         }
     }
