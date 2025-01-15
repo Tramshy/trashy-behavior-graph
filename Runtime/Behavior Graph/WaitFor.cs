@@ -8,6 +8,8 @@ namespace BehaviorGraph
     {
         public DataField<float> ToWait;
 
+        public DataField<bool> ShouldResetOnExit;
+
         private float _passedTime;
 
         public override bool Condition()
@@ -26,7 +28,8 @@ namespace BehaviorGraph
 
         public override void ConditionExit()
         {
-            _passedTime = 0;
+            if (ShouldResetOnExit.Value)
+                _passedTime = 0;
         }
     }
 }
