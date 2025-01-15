@@ -320,7 +320,6 @@ namespace BehaviorGraph.GraphEditor
 
                     //Debug.Log((e.output.node as BehaviorGraphNode).ThisNode.Transitions.Contains((e.output as BehaviorGraphPort).TransitionData) + "\n" + (e.output as BehaviorGraphPort).TransitionData);
                     (e.output.node as BehaviorGraphNode).ThisNode.RemoveFromTransitions((e.output as BehaviorGraphPort).TransitionDataGUID);
-                    EditorUtility.SetDirty((e.output.node as BehaviorGraphNode).ThisNode);
 
                     continue;
                 }
@@ -348,9 +347,6 @@ namespace BehaviorGraph.GraphEditor
 
             if (startNode != null)
                 graphViewChange.elementsToRemove.Remove(startNode);
-
-            AssetDatabase.SaveAssets();
-            AssetDatabase.Refresh();
 
             return graphViewChange;
         }
