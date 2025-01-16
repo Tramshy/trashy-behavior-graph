@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace BehaviorGraph
 
         public DataField<bool> ShouldResetOnExit;
 
-        private float _passedTime;
+        [NonSerialized] private float _passedTime;
 
         public override bool Condition()
         {

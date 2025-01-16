@@ -70,7 +70,9 @@ namespace BehaviorGraph
 
             foreach (var t in CurrentNode.Transitions)
             {
-                if (t.TransitionCondition.Condition())
+                bool cond = t.TransitionCondition.IsInverted.Value ? !t.TransitionCondition.Condition() : t.TransitionCondition.Condition();
+
+                if (cond)
                 {
                     SwitchCurrentNode(t.NextInLine);
 

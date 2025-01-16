@@ -7,6 +7,8 @@ namespace BehaviorGraph
     {
         [HideInInspector] public Node NodeCallingTransition;
 
+        public DataField<bool> IsInverted;
+
         public virtual void ConditionEnter()
         {
             // No-op
