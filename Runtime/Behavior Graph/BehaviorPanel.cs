@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BehaviorGraph
 {
@@ -42,6 +43,15 @@ namespace BehaviorGraph
 
                 return t;
             }
+        }
+
+        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+
+        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            HasLoaded = false;
         }
 
         public void SetIdentifierCallbackReference(string reference)
