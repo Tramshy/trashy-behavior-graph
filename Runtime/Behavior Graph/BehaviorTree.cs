@@ -68,8 +68,12 @@ namespace BehaviorGraph
 
             CurrentNode.OnNodeUpdate();
 
-            foreach (var t in CurrentNode.Transitions)
+            NodeTransition t = null;
+
+            for (int i = 0; i < CurrentNode.Transitions.Count; i++)
             {
+                t = CurrentNode.Transitions[i];
+
                 bool cond = t.TransitionCondition.IsInverted.Value ? !t.TransitionCondition.Condition() : t.TransitionCondition.Condition();
 
                 if (cond)
