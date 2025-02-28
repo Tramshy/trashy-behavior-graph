@@ -1,46 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
 public static class CustomScriptCreator
 {
     private static readonly string _nodeScriptName = "CustomNodeTemplate.txt", _transitionScriptName = "CustomTransitionTemplate.txt";
-    private static readonly string _path = "Packages/com.tramshy.trashy-behavior-graph/Editor/Templates/";
-
+    private static readonly string _path = "Assets/trashy-behavior-graph/Editor/Templates/";
+    //Packages/com.tramshy.trashy-behavior-graph/Editor
     [MenuItem("Assets/Create/Behavior Graph/Custom Node Script", false, 80)]
     public static void CreateNewNode()
     {
-        string selectedPath = GetSelectedPathOrFallback();
-        string scriptPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectedPath, "NewCustomNode.cs"));
+        string activeFolderPath = GetSelectedPathOrFallback();
 
-        string templateContent = File.ReadAllText(_path + _nodeScriptName);
+        string path = EditorUtility.SaveFilePanelInProject("Create Custom Node Script", "NewCustomNode.cs", "cs", "Enter a file name for the new node", activeFolderPath);
 
-        string scriptContent = templateContent.Replace("#SCRIPTNAME#", Path.GetFileNameWithoutExtension(scriptPath));
+        if (string.IsNullOrEmpty(path))
+            return;
 
-        File.WriteAllText(scriptPath, scriptContent);
+        string template = File.ReadAllText(_path + _nodeScriptName);
+        string scriptName = Path.GetFileNameWithoutExtension(path);
+        string content = template.Replace("#SCRIPTNAME#", scriptName);
 
+        File.WriteAllText(path, content);
         AssetDatabase.Refresh();
-        Object newScript = AssetDatabase.LoadAssetAtPath<Object>(scriptPath);
-        Selection.activeObject = newScript;
     }
 
     [MenuItem("Assets/Create/Behavior Graph/Custom Transition Script", false, 80)]
     public static void CreateNewTransition()
     {
-        string selectedPath = GetSelectedPathOrFallback();
-        string scriptPath = AssetDatabase.GenerateUniqueAssetPath(Path.Combine(selectedPath, "NewCustomTransition.cs"));
+        string activeFolderPath = GetSelectedPathOrFallback();
 
-        string templateContent = File.ReadAllText(_path + _transitionScriptName);
+        string path = EditorUtility.SaveFilePanelInProject("Create Custom Transition Script", "NewCustomTransition.cs", "cs", "Enter a file name for the new transition", activeFolderPath);
 
-        string scriptContent = templateContent.Replace("#SCRIPTNAME#", Path.GetFileNameWithoutExtension(scriptPath));
+        if (string.IsNullOrEmpty(path))
+            return;
 
-        File.WriteAllText(scriptPath, scriptContent);
+        string template = File.ReadAllText(_path + _transitionScriptName);
+        string scriptName = Path.GetFileNameWithoutExtension(path);
+        string content = template.Replace("#SCRIPTNAME#", scriptName);
 
+        File.WriteAllText(path, content);
         AssetDatabase.Refresh();
-        Object newScript = AssetDatabase.LoadAssetAtPath<Object>(scriptPath);
-        Selection.activeObject = newScript;
     }
 
     private static string GetSelectedPathOrFallback()
