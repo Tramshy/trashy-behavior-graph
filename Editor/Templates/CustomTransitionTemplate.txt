@@ -1,0 +1,22 @@
+using BehaviorGraph;
+using UnityEngine;
+
+public class #SCRIPTNAME# : NodeTransitionObject
+{
+    // This method can be removed if it remains unused.
+    public override void ConditionEnter()
+    {
+
+    }
+
+    public override bool Condition()
+    {
+        return false;
+    }
+
+    // This method can be removed if it remains unused.
+    public override void ConditionExit()
+    {
+
+    }
+}

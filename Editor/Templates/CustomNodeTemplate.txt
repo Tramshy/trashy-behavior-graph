@@ -1,0 +1,20 @@
+using BehaviorGraph;
+using UnityEngine;
+
+public class #SCRIPTNAME# : Node
+{
+    public override void OnNodeStart()
+    {
+
+    }
+
+    public override void OnNodeUpdate()
+    {
+
+    }
+
+    public override void ResetNode()
+    {
+
+    }
+}
