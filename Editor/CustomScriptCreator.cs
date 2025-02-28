@@ -5,8 +5,8 @@ using UnityEngine;
 public static class CustomScriptCreator
 {
     private static readonly string _nodeScriptName = "CustomNodeTemplate.txt", _transitionScriptName = "CustomTransitionTemplate.txt";
-    private static readonly string _path = "Assets/trashy-behavior-graph/Editor/Templates/";
-    //Packages/com.tramshy.trashy-behavior-graph/Editor
+    private static readonly string _path = "Packages/com.tramshy.trashy-behavior-graph/Editor/Templates/";
+    
     [MenuItem("Assets/Create/Behavior Graph/Custom Node Script", false, 80)]
     public static void CreateNewNode()
     {
