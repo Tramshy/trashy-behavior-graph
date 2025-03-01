@@ -23,7 +23,7 @@ namespace BehaviorGraph
             }
         }
 
-        private Node _currentNode;
+        [SerializeField, ReadOnlyInspector] private Node _currentNode;
         public Node CurrentNode { get => _currentNode; private set
             {
                 if (_currentNode != null)
