@@ -11,8 +11,8 @@ namespace BehaviorGraph
                 {
                     foreach (Node n in value.PanelNodes)
                     {
-                        n.SetUpFields(gameObject, Panel.MonoBehaviorDataComponent);
-                        n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, Panel.MonoBehaviorDataComponent));
+                        n.SetUpFields(gameObject, value.MonoBehaviorDataComponent);
+                        n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, value.MonoBehaviorDataComponent));
                     }
 
                     value.HasLoaded = true;
