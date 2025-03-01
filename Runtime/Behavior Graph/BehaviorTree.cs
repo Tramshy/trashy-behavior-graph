@@ -39,7 +39,7 @@ namespace BehaviorGraph
             }
         }
 
-        private void Awake()
+        private void Start()
         {
             Panel = _panel;
         }
