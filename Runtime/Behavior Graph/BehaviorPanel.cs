@@ -13,6 +13,7 @@ namespace BehaviorGraph
 
         [HideInInspector] public string Identifier = "";
         [SerializeField] private string _dataComponentName;
+        public string DataComponentName { get => _dataComponentName; set => _dataComponentName = value; }
 
         [HideInInspector, NonSerialized] public bool HasLoaded = false; 
 
@@ -23,13 +24,13 @@ namespace BehaviorGraph
         {
             get
             {
-                if (_previousName == _dataComponentName && _component != null)
+                if (_previousName == DataComponentName && _component != null)
                     return _component;
 
-                if (_dataComponentName == "")
+                if (DataComponentName == "")
                     return null;
 
-                string search = _dataComponentName.Contains(",Assembly-CSharp") ? _dataComponentName : _dataComponentName + ",Assembly-CSharp";
+                string search = DataComponentName.Contains(",Assembly-CSharp") ? DataComponentName : DataComponentName + ",Assembly-CSharp";
                 Type t = Type.GetType(search);
 
                 if (t == null)
@@ -38,16 +39,22 @@ namespace BehaviorGraph
                 if (!typeof(BehaviorData).IsAssignableFrom(t))
                     throw new Exception("DataComponentName does not match the name of any types, which inherit BehaviorData");
 
-                _previousName = _dataComponentName;
+                _previousName = DataComponentName;
                 _component = t;
 
                 return t;
             }
         }
 
-        private void OnEnable() => SceneManager.sceneLoaded += OnSceneLoaded;
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
 
-        private void OnDisable() => SceneManager.sceneLoaded -= OnSceneLoaded;
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {

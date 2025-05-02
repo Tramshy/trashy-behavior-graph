@@ -19,17 +19,10 @@ namespace BehaviorGraph
 #endif
         }
 
-        public string UniqueID
-        {
-            get
-            {
-#if UNITY_EDITOR
-                return _uniqueID;
-#else
-                throw new System.InvalidOperationException("UniqueID is editor-only and cannot be accessed at runtime.");
-#endif
-            }
-        }
+        /// <summary>
+        /// Do not set UniqueID, unless it is a part of the Deep Clone process.
+        /// </summary>
+        public string UniqueID { get => _uniqueID; set => _uniqueID = value; }
 
         // Would be great to add drag and drop feature instead of manually typing, but Unity hates making things easy.
         public FieldBindingData[] FieldOverrides = new FieldBindingData[0];

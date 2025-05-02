@@ -7,19 +7,33 @@ namespace BehaviorGraph
         [SerializeField] private BehaviorPanel _panel;
         public BehaviorPanel Panel { get => _panel; private set
             {
-                if (value.MonoBehaviorDataComponent != null && !value.HasLoaded)
-                {
-                    foreach (Node n in value.PanelNodes)
-                    {
-                        n.SetUpFields(gameObject, value.MonoBehaviorDataComponent);
-                        n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, value.MonoBehaviorDataComponent));
-                    }
+                var panelToSwitch = value;
 
-                    value.HasLoaded = true;
+                if (panelToSwitch.MonoBehaviorDataComponent != null)
+                {
+                    if (!value.HasLoaded)
+                    {
+                        foreach (Node n in value.PanelNodes)
+                        {
+                            n.SetUpFields(gameObject, value.MonoBehaviorDataComponent);
+                            n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, value.MonoBehaviorDataComponent));
+                        }
+                    }
+                    else
+                    {
+                        panelToSwitch = ScriptableObjectDeepClone.DeepClone(value);
+
+                        foreach (Node n in panelToSwitch.PanelNodes)
+                        {
+                            n.SetUpFields(gameObject, panelToSwitch.MonoBehaviorDataComponent);
+                            n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, panelToSwitch.MonoBehaviorDataComponent));
+                        }
+                    }
                 }
 
-                CurrentNode = value.StartingNode;
-                _panel = value;
+                panelToSwitch.HasLoaded = true;
+                CurrentNode = panelToSwitch.StartingNode;
+                _panel = panelToSwitch;
             }
         }
 
@@ -44,6 +58,10 @@ namespace BehaviorGraph
             Panel = _panel;
         }
 
+        /// <summary>
+        /// Switches from one panel to another.
+        /// WARNING: Only do this if only one BehaviorTree uses the panels.
+        /// </summary>
         public void SwitchBehaviorPanel(BehaviorPanel panel)
         {
             Panel = panel;
