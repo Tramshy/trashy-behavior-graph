@@ -100,18 +100,26 @@ namespace BehaviorGraph.GraphEditor
             // Upon restart Unity will lose its in-memory reference to the scriptable object and manual reassignment is necessary.
             if (needsManuelSet)
             {
-                foreach (BehaviorGraphNode n in data.Nodes)
+                for (int i = 0; i < data.Nodes.Count; i++)
                 {
                     NodeInstancesSerializer ser = Resources.Load<NodeInstancesSerializer>("Instance Serializer");
 
+                    var n = data.Nodes[i];
+
                     n.ThisNode = ser.NodeInstances.GetNodeInstance(n.GUID) as Node;
-                    n.ThisNode.Transitions.ForEach((t) =>
+
+                    for (int j = 0; j < n.ThisNode.Transitions.Count; j++)
                     {
+                        var t = n.ThisNode.Transitions[j];
+
                         t.TransitionCondition = ser.NodeInstances.GetNodeInstance(t.TGUID) as NodeTransitionObject;
                         t.NextInLine = ser.NodeInstances.GetNodeInstance(t.NGUID) as Node;
-                    });
+                    }
 
-                    n.Ports.ForEach((p) => p.Transition = ser.NodeInstances.GetNodeInstance(p.GUID) as NodeTransitionObject);
+                    for (int j = 0; j < n.Ports.Count; j++)
+                    {
+                        n.Ports[j].Transition = ser.NodeInstances.GetNodeInstance(n.Ports[j].GUID) as NodeTransitionObject;
+                    }
                 }
             }
 

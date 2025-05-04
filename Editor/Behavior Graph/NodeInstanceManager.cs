@@ -9,7 +9,7 @@ namespace BehaviorGraph.GraphEditor
     [Serializable]
     public class NodeInstanceManager
     {
-        [SerializeField] internal List<Instance> instances = new List<Instance>();
+        [SerializeField, NonReorderable] internal List<Instance> instances = new List<Instance>();
 
         [Serializable]
         internal class Instance
