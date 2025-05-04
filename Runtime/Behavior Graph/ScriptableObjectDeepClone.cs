@@ -25,6 +25,17 @@ namespace BehaviorGraph
 
             for (int i = 0; i < original.PanelNodes.Count; i++)
             {
+                // If there are no transitions in a panel, the starting node is set here.
+                if (original.PanelNodes[i].Transitions.Count == 0)
+                {
+                    for (int j = 0; j < clone.PanelNodes.Count; j++)
+                    {
+                        // Set up starting node if the current copied Node's ID matches the original starting ID.
+                        if (clone.PanelNodes[j].UniqueID == original.StartingNode.UniqueID)
+                            clone.StartingNode = clone.PanelNodes[j];
+                    }
+                }
+
                 for (int j = 0; j < original.PanelNodes[i].Transitions.Count; j++)
                 {
                     // The object containing the transition logic for this transition.
@@ -50,6 +61,8 @@ namespace BehaviorGraph
                     }
                 }
             }
+
+            Debug.Log(clone.StartingNode);
 
             return clone;
         }

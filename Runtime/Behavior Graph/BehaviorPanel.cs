@@ -17,7 +17,7 @@ namespace BehaviorGraph
 #endif
 
         [HideInInspector] public string Identifier = "";
-        private string _dataComponentName;
+        private string _dataComponentName = "";
         public string DataComponentName { get => _dataComponentName; set => _dataComponentName = value; }
 
         [HideInInspector, NonSerialized] public bool HasLoaded = false; 
