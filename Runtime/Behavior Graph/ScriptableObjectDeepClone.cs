@@ -62,8 +62,6 @@ namespace BehaviorGraph
                 }
             }
 
-            Debug.Log(clone.StartingNode);
-
             return clone;
         }
     }

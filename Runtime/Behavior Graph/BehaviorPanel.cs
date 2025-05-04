@@ -54,6 +54,15 @@ namespace BehaviorGraph
 #if UNITY_EDITOR
         public void SetBehaviorData()
         {
+            if (_behaviorDataComponent == null)
+            {
+                _dataComponentName = "";
+
+                Debug.Log("Behavior data unlinked.");
+
+                return;
+            }
+
             Type scriptClass = _behaviorDataComponent.GetClass();
 
             if (scriptClass == null || !typeof(BehaviorData).IsAssignableFrom(scriptClass))
