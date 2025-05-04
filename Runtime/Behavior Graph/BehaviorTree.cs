@@ -61,6 +61,7 @@ namespace BehaviorGraph
         /// <summary>
         /// Switches from one panel to another.
         /// WARNING: Only do this if only one BehaviorTree uses the panels.
+        /// If you try to do this it will be very costly for performance.
         /// </summary>
         public void SwitchBehaviorPanel(BehaviorPanel panel)
         {

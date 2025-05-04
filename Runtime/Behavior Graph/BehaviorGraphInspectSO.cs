@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
@@ -24,8 +25,7 @@ namespace BehaviorGraph
         /// </summary>
         public string UniqueID { get => _uniqueID; set => _uniqueID = value; }
 
-        // Would be great to add drag and drop feature instead of manually typing, but Unity hates making things easy.
-        public FieldBindingData[] FieldOverrides = new FieldBindingData[0];
+        [HideInInspector] public List<FieldBindingData> FieldOverrides = new List<FieldBindingData>();
 
         public void SetUpFields(GameObject objectHoldingPanel, Type componentType)
         {

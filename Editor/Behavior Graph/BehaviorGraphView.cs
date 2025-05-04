@@ -6,12 +6,20 @@ using UnityEditor;
 using System;
 using System.Linq;
 using System.Data;
+using System.Reflection;
 
 namespace BehaviorGraph.GraphEditor
 {
     public class BehaviorGraphView : GraphView
     {
         public new class UxmlFactory : UxmlFactory<BehaviorGraphView, UxmlTraits> { }
+
+        public class BlackboardData
+        {
+            public BehaviorGraphInspectSO.FieldBindingData FieldBinding;
+            public BehaviorGraphField Field;
+            public Type FieldType;
+        }
 
         public Blackboard GraphBlackboard;
 
@@ -23,8 +31,8 @@ namespace BehaviorGraph.GraphEditor
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
-
-            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
+            // Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
             styleSheets.Add(styleSheet);
 
             focusable = true;
@@ -80,17 +88,49 @@ namespace BehaviorGraph.GraphEditor
             }
 
             GraphBlackboard.addItemRequested = (b) => Debug.Log("Add field to MonoBehaviorDataComponent to see field in Blackboard, and for use in BehaviorGraph.");
-            
-            foreach (var field in component.GetFields())
-            {
-                BehaviorGraphField f = new BehaviorGraphField()
-                {
-                    text = field.Name,
-                    typeText = field.FieldType.Name
-                };
 
-                GraphBlackboard.Add(f);
+            ScrollView scrollView = new ScrollView();
+            scrollView.style.flexGrow = 1;
+            scrollView.style.height = new Length(100, LengthUnit.Percent);
+
+            foreach (var field in component.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                BehaviorGraphField f = new BehaviorGraphField() { text = field.Name };
+
+                var fieldType = field.FieldType.GetField("Value").FieldType;
+                f.typeText = fieldType.Name;
+
+                f.RegisterCallback<MouseDownEvent>(evt =>
+                {
+                    if (InspectorView.CurrentData == null)
+                        return;
+
+                    evt.StopImmediatePropagation(); // STOP any bubbling that might grab the whole element.
+                    evt.PreventDefault(); // Prevent default behavior like dragging, selecting, focusing.
+
+                    var dropData = DragAndDrop.GetGenericData("BlackboardField");
+
+                    if (dropData != null)
+                        (dropData as BlackboardData).Field.RemoveFromClassList("field-highlight");
+
+                    f.AddToClassList("field-highlight");
+
+                    DragAndDrop.PrepareStartDrag();
+                    DragAndDrop.SetGenericData("BlackboardField", new BlackboardData()
+                    {
+                        FieldBinding = new BehaviorGraphInspectSO.FieldBindingData() { ComponentFieldOverrideName = field.Name },
+                        Field = f,
+                        FieldType = fieldType
+                    });
+                    DragAndDrop.StartDrag("Dragging BlackboardField");
+
+                    InspectorView.UpdateAllowedLinks();
+                });
+
+                scrollView.Add(f);
             }
+
+            GraphBlackboard.Add(scrollView);
 
             SetUpSearchWindow();
         }
@@ -275,14 +315,14 @@ namespace BehaviorGraph.GraphEditor
             
             foreach (var e in graphViewChange.elementsToRemove)
             {
-                if (e is BehaviorGraphNode n && n.ThisNode == BehaviorGraphEditor.ThisInspectorView.CurrentData)
+                if (e is BehaviorGraphNode n && n.ThisNode == InspectorView.CurrentData)
                 {
                     BehaviorGraphEditor.InspectorSelectionUpdate(null);
 
                     break;
                 }
 
-                if (e is BehaviorGraphEdge d && d.ThisInspectSO == BehaviorGraphEditor.ThisInspectorView.CurrentData)
+                if (e is BehaviorGraphEdge d && d.ThisInspectSO == InspectorView.CurrentData)
                 {
                     BehaviorGraphEditor.InspectorSelectionUpdate(null);
 

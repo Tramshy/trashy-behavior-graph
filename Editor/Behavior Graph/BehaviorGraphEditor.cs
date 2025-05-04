@@ -22,6 +22,8 @@ namespace BehaviorGraph.GraphEditor
         public static BehaviorGraphView ThisGraphView;
         public static InspectorView ThisInspectorView;
 
+        public static VisualElement Root;
+
         private static NodeInstancesSerializer _serializer { get => Resources.Load<NodeInstancesSerializer>("Instance Serializer"); }
 
         [MenuItem("Window/Behavior Graph Editor")]
@@ -40,15 +42,15 @@ namespace BehaviorGraph.GraphEditor
         public void CreateGUI()
         {
             // Each editor window contains a root VisualElement object
-            VisualElement root = rootVisualElement;
+            Root = rootVisualElement;
 
-            m_VisualTreeAsset.CloneTree(root);
+            m_VisualTreeAsset.CloneTree(Root);
 
-            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
-            root.styleSheets.Add(styleSheet);
+            StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
+            Root.styleSheets.Add(styleSheet);
 
-            ThisGraphView = root.Q<BehaviorGraphView>();
-            ThisInspectorView = root.Q<InspectorView>();
+            ThisGraphView = Root.Q<BehaviorGraphView>();
+            ThisInspectorView = Root.Q<InspectorView>();
 
             _miniMap = new MiniMap();
             _miniMap.SetPosition(new Rect(20, 35, 200, 150));
@@ -109,6 +111,8 @@ namespace BehaviorGraph.GraphEditor
 
         private static void UpdateGraphViewData()
         {
+            DragAndDrop.SetGenericData("BlackboardField", null);
+
             BehaviorPanel selected = Selection.activeObject as BehaviorPanel;
             CurrentBehaviorPanel = selected == null ? null : selected;
 

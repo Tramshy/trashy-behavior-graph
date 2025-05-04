@@ -8,14 +8,14 @@ namespace BehaviorGraph.GraphEditor
     {
         public BehaviorGraphField() : base()
         {
-            base.capabilities = Capabilities.Selectable | Capabilities.Copiable;
+            base.capabilities = Capabilities.Selectable;
         }
 
-        protected override void BuildFieldContextualMenu(ContextualMenuPopulateEvent evt)
-        {
-            evt.menu.AppendAction("Copy", (menuAction) => GUIUtility.systemCopyBuffer = text);
+        //protected override void BuildFieldContextualMenu(ContextualMenuPopulateEvent evt)
+        //{
+        //    evt.menu.AppendAction("Copy", (menuAction) => GUIUtility.systemCopyBuffer = text);
 
-            evt.menu.AppendSeparator();
-        }
+        //    evt.menu.AppendSeparator();
+        //}
     }
 }

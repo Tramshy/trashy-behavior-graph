@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -11,8 +12,12 @@ namespace BehaviorGraph
         [HideInInspector] public List<Node> PanelNodes = new List<Node>();
         [HideInInspector] public Node StartingNode;
 
+#if UNITY_EDITOR
+        [SerializeField] private MonoScript _behaviorDataComponent;
+#endif
+
         [HideInInspector] public string Identifier = "";
-        [SerializeField] private string _dataComponentName;
+        private string _dataComponentName;
         public string DataComponentName { get => _dataComponentName; set => _dataComponentName = value; }
 
         [HideInInspector, NonSerialized] public bool HasLoaded = false; 
@@ -45,6 +50,22 @@ namespace BehaviorGraph
                 return t;
             }
         }
+
+#if UNITY_EDITOR
+        public void SetBehaviorData()
+        {
+            Type scriptClass = _behaviorDataComponent.GetClass();
+
+            if (scriptClass == null || !typeof(BehaviorData).IsAssignableFrom(scriptClass))
+                Debug.LogError("Script not linked!\nMake sure the script inherits from BehaviorData.");
+            else
+            {
+                _dataComponentName = scriptClass.Name;
+
+                Debug.Log("Linked successfully!");
+            }
+        }
+#endif
 
         private void OnEnable()
         {
