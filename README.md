@@ -1,20 +1,20 @@
 # Behavior Graph
-A visualized graph editor, allowing for simple, and complex, AI creation
+A visual graph editor facilitating the creation of simple and complex AI behaviors
 
 ## Features
-* A dynamic and easily usable editor window
-* Base transitions between nodes
-* Allows for custom nodes and node transitions to be easily created
-* Quick and easy integration to other `MonoBehavior` components, allows for dynamic field changes for nodes and transitions
+* A dynamic, user-friendly editor window
+* Support for fundamental node transitions
+* Easily create custom nodes and transitions
+* Quick and easy integration to other `MonoBehaviour` components, enabling dynamic field modifications for nodes and transitions
 
 ## Editor Usage
 ### Using the graph editor
-1. Create a new `BehaviorPanel` scriptable object using context menu.
+1. Create a new `BehaviorPanel` scriptable object using the context menu.
 2. Double click scriptable object, or click `Window -> Behavior Graph Editor` and select scriptable object.
 3. Press `Space`, or `Right click -> Create Nodes`, to open search window for nodes.
 4. `Right click` any node for more options, like creating transitions.
 5. Select any node or edge to see values in the inspector to the left.
-### Integrating separate `MonoBehavior` component for dynamic field updates
+### Integrating separate `MonoBehaviour` component for dynamic field updates
 1. Create a new script and inherit `BehaviorData`.
 2. Variables that can be accessed, and used by, behavior graph should be created using the generic `DataField<T>` class.
 3. Add logic as usual.
