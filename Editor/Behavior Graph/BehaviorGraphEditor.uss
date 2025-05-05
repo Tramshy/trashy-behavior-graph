@@ -24,12 +24,8 @@ GridBackground {
 
 .field-highlight {
     background-color: #494949;
-    border: 1px solid #4c9aff;
-    border-radius: 4px;
 }
 
 .field-remove-highlight {
     background-color: #6F3535;
-    border: 1px solid #4c9aff;
-    border-radius: 4px;
 }
