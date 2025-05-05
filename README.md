@@ -53,5 +53,3 @@ The tool is surprisingly performant, but it works using a lot of reflection, and
 The tool also has some serialization issues right now, which means that if you are unlucky the tool may just stop working for a panel. I am trying to fix this as fast as possible
 
 Due to the fact that the system uses `Scriptable Objects` as nodes and transitions, you may have to use the `[NonSerialized]` attribute to avoid Unity from serializing the runtime data and thus overriding your default values for variables. This is not a problem for all fields, but if you notice the issue just use the attribute.
-
-The use of [UPM Git Extension](https://github.com/mob-sakai/UpmGitExtension) is highly recommended, for easy updating of this package.
