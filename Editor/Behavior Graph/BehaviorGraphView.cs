@@ -94,6 +94,9 @@ namespace BehaviorGraph.GraphEditor
 
             foreach (var field in component.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
             {
+                if (!(field.FieldType.IsGenericType && field.FieldType.GetGenericTypeDefinition() == typeof(DataField<>)))
+                    continue;
+
                 BehaviorGraphField f = new BehaviorGraphField() { text = field.Name };
 
                 var fieldType = field.FieldType.GetField("Value").FieldType;
