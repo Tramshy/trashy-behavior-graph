@@ -20,9 +20,9 @@ A visualized graph editor, allowing for simple, and complex, AI creation
 3. Add logic as usual.
 4. Select the desired `BehaviorPanel` and drag in the new class, before clicking `Link Behavior Data`.
 5. You can now see all the serialized fields in the blackboard of the graph editor!
-6. To use fields, select desired node or edge.
+6. To use fields, select the desired node or edge.
 7. Click on a variable in the blackboard and then click on the variable you wish to link it to in the inspector.
-8. You can un-link fields by just clicking them again.
+8. You can unlink fields by just clicking them again.
 ### Creating custom nodes and node transitions
 **Nodes**
 1. In the context menu under `Behavior Graph` choose `Custom Node Script`.
@@ -48,9 +48,9 @@ A visualized graph editor, allowing for simple, and complex, AI creation
 This package is licensed under the MIT License. For more information read: `LICENSE`.
 
 ## Additional Notes
-The tool is suprisingly performant, but it works using a lot of reflection, and cloning of `Scriptable Objects` in some cases, which is inherently quite costly.
+The tool is surprisingly performant, but it works using a lot of reflection, and cloning of `Scriptable Objects` in some cases, which is inherently quite costly.
 
-The tool also has some serilization issues right now, which means that if you are unlucky the tool may just stop working for a panel. I am trying to fix this as fast as possible
+The tool also has some serialization issues right now, which means that if you are unlucky the tool may just stop working for a panel. I am trying to fix this as fast as possible
 
 Due to the fact that the system uses `Scriptable Objects` as nodes and transitions, you may have to use the `[NonSerialized]` attribute to avoid Unity from serializing the runtime data and thus overriding your default values for variables. This is not a problem for all fields, but if you notice the issue just use the attribute.
 
