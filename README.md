@@ -7,6 +7,16 @@ A visual graph editor facilitating the creation of simple and complex AI behavio
 * Easily create custom nodes and transitions
 * Quick and easy integration to other `MonoBehaviour` components, enabling dynamic field modifications for nodes and transitions
 
+## Installation
+This repository is installed as a package for Unity.
+1. `Open Window` > `Package Manager`.
+2. Click `+`.
+3. Select Add Package from git URL.
+4. Paste `https://github.com/Tramshy/trashy-behavior-graph.git`.
+5. Click Add.
+
+NOTE: To do this you need Git installed on your computer.
+
 ## Editor Usage
 ### Using the graph editor
 1. Create a new `BehaviorPanel` scriptable object using the context menu.
