@@ -2,7 +2,8 @@ using UnityEngine;
 
 namespace BehaviorGraph
 {
-    public class DebugNode : Node, IBaseBehaviorElement
+    [BaseBehaviorElement]
+    public class DebugNode : Node
     {
         public DataField<string> Message;
 

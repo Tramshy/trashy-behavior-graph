@@ -98,6 +98,25 @@ namespace BehaviorGraph
 
             Identifier = reference;
         }
+
+        /// <summary>
+        /// Gets a Node from this Panel, based on its name.
+        /// </summary>
+        /// <param name="nodeName">The name of the Node. If the name is not unique, this method gets the first Node found in the list which uses that name.</param>
+        /// <returns>Returns null if no Nodes with this name are found.</returns>
+        public Node GetNode(string nodeName)
+        {
+            if (nodeName.Length == 0)
+                return null;
+
+            for (int i = 0; i < PanelNodes.Count; i++)
+            {
+                if (PanelNodes[i].GetNodeName() == nodeName)
+                    return PanelNodes[i];
+            }
+
+            return null;
+        }
     }
 }
 

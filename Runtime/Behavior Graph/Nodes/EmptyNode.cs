@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BehaviorGraph
 {
-    public class EmptyNode : Node, IBaseBehaviorElement
+    [BaseBehaviorElement]
+    public class EmptyNode : Node
     {
         public override void OnNodeStart()
         {

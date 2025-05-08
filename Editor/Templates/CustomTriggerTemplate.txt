@@ -1,0 +1,11 @@
+using BehaviorGraph;
+
+public class #SCRIPTNAME# : TriggerTransition
+{
+    // Use CallTrigger method to check condition and switch Node for Triggers.
+
+    public override bool Condition()
+    {
+        return false;
+    }
+}

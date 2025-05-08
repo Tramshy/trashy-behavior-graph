@@ -10,6 +10,7 @@ namespace BehaviorGraph.GraphEditor
         public BehaviorGraphNode(Node node, string name, bool start, List<BehaviorGraphPort> ports, List<BehaviorGraphConnection> linkNodes, string guid = "")
         {
             ThisNode = node;
+            ThisNode.SetNodeName_Internal(name);
 
             XPosition = GetPosition().x;
             YPosition = GetPosition().y;

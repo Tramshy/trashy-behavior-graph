@@ -3,21 +3,25 @@ using UnityEngine;
 namespace BehaviorGraph
 {
     [BaseBehaviorElement, AllowMultipleTransition]
-    public class FloatCompare : NodeTransitionObject
+    public class DistanceCompareTrigger : TriggerTransition
     {
-        public DataField<float> A;
-        public DataField<float> B;
+        public DataField<Vector3> A;
+        public DataField<Vector3> B;
+
+        public DataField<float> TargetDistance;
 
         private enum CompareOptions { GreaterThan, LessThan }
         [SerializeField] private CompareOptions _compareOption;
 
         public override bool Condition()
         {
+            float distance = Vector3.Distance(A.Value, B.Value);
+
             if (_compareOption == CompareOptions.GreaterThan)
-                return A.Value >= B.Value;
+                return distance >= TargetDistance.Value;
             else
             {
-                return A.Value <= B.Value;
+                return distance <= TargetDistance.Value;
             }
         }
     }

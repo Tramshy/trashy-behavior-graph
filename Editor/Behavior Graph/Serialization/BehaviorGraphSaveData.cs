@@ -27,7 +27,6 @@ namespace BehaviorGraph.GraphEditor
 
         public List<BehaviorGraphNode> Nodes;
 
-        // Reminder to self: properties cannot be serialized.
         public string Identifier; // { get; private set; }
     }
 

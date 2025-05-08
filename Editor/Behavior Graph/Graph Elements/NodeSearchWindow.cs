@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
@@ -38,7 +39,7 @@ namespace BehaviorGraph.GraphEditor
 
             foreach (Type node in nodes)
             {
-                if (typeof(IBaseBehaviorElement).IsAssignableFrom(node))
+                if (node.GetCustomAttribute<BaseBehaviorElement>() != null)
                 {
                     tree.Add(new SearchTreeEntry(new GUIContent(node.Name, _hiddenIcon))
                     {

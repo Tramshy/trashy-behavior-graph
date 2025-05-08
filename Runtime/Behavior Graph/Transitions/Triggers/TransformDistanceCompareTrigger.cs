@@ -5,10 +5,10 @@ using UnityEngine;
 namespace BehaviorGraph
 {
     [BaseBehaviorElement, AllowMultipleTransition]
-    public class DistanceCompare : NodeTransitionObject
+    public class TransformDistanceCompareTrigger : TriggerTransition
     {
-        public DataField<Vector3> A;
-        public DataField<Vector3> B;
+        public DataField<Transform> A;
+        public DataField<Transform> B;
 
         public DataField<float> TargetDistance;
 
@@ -17,7 +17,7 @@ namespace BehaviorGraph
 
         public override bool Condition()
         {
-            float distance = Vector3.Distance(A.Value, B.Value);
+            float distance = Vector3.Distance(A.Value.position, B.Value.position);
 
             if (_compareOption == CompareOptions.GreaterThan)
                 return distance >= TargetDistance.Value;

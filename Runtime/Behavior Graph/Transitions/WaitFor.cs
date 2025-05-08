@@ -5,7 +5,8 @@ using UnityEngine;
 
 namespace BehaviorGraph
 {
-    public class WaitFor : NodeTransitionObject, IBaseBehaviorElement
+    [BaseBehaviorElement, AllowMultipleTransition]
+    public class WaitFor : NodeTransitionObject
     {
         public DataField<float> ToWait;
 

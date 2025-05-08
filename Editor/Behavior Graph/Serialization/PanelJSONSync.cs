@@ -35,12 +35,6 @@ namespace BehaviorGraph.GraphEditor
                 File.Delete(jsonDataPath);
                 File.Delete(jsonDataPath + ".meta");
             }
-            //else
-            //{
-            //    Debug.LogWarning($"No associated serialized data was found for deleted object at path: {jsonDataPath}.\n" +
-            //                    $"This should only happen if the associated JSON file was renamed.\n" +
-            //                    $"Associated serialized data has not been deleted with Panel, this could cause build up.");
-            //}
 
             return AssetDeleteResult.DidNotDelete;
         }

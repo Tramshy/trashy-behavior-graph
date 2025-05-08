@@ -1,6 +1,7 @@
 namespace BehaviorGraph
 {
-    public class NodeSucceeded : NodeTransitionObject, IBaseBehaviorElement
+    [BaseBehaviorElement]
+    public class NodeSucceeded : NodeTransitionObject
     {
         public override bool Condition()
         {

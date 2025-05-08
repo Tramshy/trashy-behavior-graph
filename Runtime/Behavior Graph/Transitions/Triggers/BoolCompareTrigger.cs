@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorGraph
 {
     [BaseBehaviorElement, AllowMultipleTransition]
-    public class BoolCompare : NodeTransitionObject
+    public class BoolCompareTrigger : TriggerTransition
     {
         public DataField<bool> ToCheck;
 

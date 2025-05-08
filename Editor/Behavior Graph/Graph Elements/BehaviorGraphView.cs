@@ -31,6 +31,7 @@ namespace BehaviorGraph.GraphEditor
             this.AddManipulator(new ContentDragger());
             this.AddManipulator(new SelectionDragger());
             this.AddManipulator(new RectangleSelector());
+
             StyleSheet styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Packages/com.tramshy.trashy-behavior-graph/Editor/Behavior Graph/BehaviorGraphEditor.uss");
             styleSheets.Add(styleSheet);
 
@@ -151,6 +152,7 @@ namespace BehaviorGraph.GraphEditor
 
             node.Name = name;
             node.title = name;
+            node.ThisNode.SetNodeName_Internal(name);
         }
 
         private void SetUpVisualNode(BehaviorGraphNode node, string baseName)
@@ -216,7 +218,7 @@ namespace BehaviorGraph.GraphEditor
 
                             foreach (BehaviorGraphPort p in thisNode.Ports)
                             {
-                                if (p.Transition.GetType() == transition && !typeof(IAllowMultiTransitionElement).IsAssignableFrom(transition))
+                                if (p.Transition.GetType() == transition && transition.GetCustomAttribute<AllowMultipleTransition>() == null)
                                     shouldContinue = true;
                             }
 
@@ -225,8 +227,18 @@ namespace BehaviorGraph.GraphEditor
 
                             string menuName = transition.Name;
 
-                            if (typeof(IBaseBehaviorElement).IsAssignableFrom(transition))
+                            if (transition.GetCustomAttribute<BaseBehaviorElement>() != null && !typeof(TriggerTransition).IsAssignableFrom(transition))
                                 menuName = $"Base Transitions/{menuName}";
+                            else if (transition.GetCustomAttribute<BaseBehaviorElement>() != null &&
+                                    typeof(TriggerTransition).IsAssignableFrom(transition))
+                            {
+                                menuName = $"Base Triggers/{menuName}";
+                            }
+                            else if (transition.GetCustomAttribute<BaseBehaviorElement>() == null &&
+                                    typeof(TriggerTransition).IsAssignableFrom(transition))
+                            {
+                                menuName = $"Custom Triggers/{menuName}";
+                            }
                             else
                             {
                                 menuName = $"Custom Transitions/{menuName}";
@@ -279,6 +291,7 @@ namespace BehaviorGraph.GraphEditor
         private void RenameNodeVisual(BehaviorGraphNode thisNode, string newName)
         {
             thisNode.Name = newName;
+            thisNode.ThisNode.SetNodeName_Internal(newName);
         }
 
         public void AddNewNode(Type type, Rect spawnPos)

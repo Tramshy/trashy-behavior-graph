@@ -3,7 +3,8 @@ using UnityEngine;
 
 namespace BehaviorGraph
 {
-    public class WaitNode : Node, IBaseBehaviorElement
+    [BaseBehaviorElement]
+    public class WaitNode : Node
     {
         public DataField<float> TimeToWait;
 

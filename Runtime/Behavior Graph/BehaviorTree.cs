@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorGraph
@@ -11,24 +12,10 @@ namespace BehaviorGraph
 
                 if (panelToSwitch.MonoBehaviorDataComponent != null)
                 {
-                    if (!value.HasLoaded)
-                    {
-                        foreach (Node n in value.PanelNodes)
-                        {
-                            n.SetUpFields(gameObject, value.MonoBehaviorDataComponent);
-                            n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, value.MonoBehaviorDataComponent));
-                        }
-                    }
-                    else
-                    {
+                    if (value.HasLoaded) // Set up with deep clone.
                         panelToSwitch = ScriptableObjectDeepClone.DeepClone(value);
 
-                        foreach (Node n in panelToSwitch.PanelNodes)
-                        {
-                            n.SetUpFields(gameObject, panelToSwitch.MonoBehaviorDataComponent);
-                            n.Transitions.ForEach((t) => t.TransitionCondition.SetUpFields(gameObject, panelToSwitch.MonoBehaviorDataComponent));
-                        }
-                    }
+                    SetUpPanel(panelToSwitch);
                 }
 
                 panelToSwitch.HasLoaded = true;
@@ -58,17 +45,59 @@ namespace BehaviorGraph
             Panel = _panel;
         }
 
+        private void SetUpPanel(BehaviorPanel panel)
+        {
+            foreach (Node n in panel.PanelNodes)
+            {
+                // Set up fields for all transitions.
+                n.SetUpFields(gameObject, panel.MonoBehaviorDataComponent);
+
+                for (int i = 0; i < n.Transitions.Count; i++)
+                {
+                    n.Transitions[i].TransitionCondition.SetUpFields(gameObject, panel.MonoBehaviorDataComponent);
+                }
+
+                // Sort transitions.
+                for (int i = 0; i < n.Transitions.Count; i++)
+                {
+                    if (n.Transitions[i].TransitionCondition is TriggerTransition)
+                    {
+                        if (n.Triggers == null)
+                            n.Triggers = new List<TriggerTransition>();
+
+                        var trigger = n.Transitions[i].TransitionCondition as TriggerTransition;
+
+                        trigger.thisTree = this;
+                        trigger.nextNode = n.Transitions[i].NextInLine;
+                        n.Triggers.Add(trigger);
+                    }
+                    else
+                    {
+                        if (n.UpdateTransitions == null)
+                            n.UpdateTransitions = new List<NodeTransition>();
+
+                        n.UpdateTransitions.Add(n.Transitions[i]);
+                    }
+                }
+
+                if (n.Triggers.Count == 0)
+                    n.Triggers = null;
+
+                if (n.UpdateTransitions.Count == 0)
+                    n.UpdateTransitions = null;
+            }
+        }
+
         /// <summary>
         /// Switches from one panel to another.
-        /// WARNING: Only do this if only one BehaviorTree uses the panels.
-        /// If you try to do this it will be very costly for performance.
+        /// This may be costly for performance if several BehaviorTrees switch at once for complex behaviors.
         /// </summary>
         public void SwitchBehaviorPanel(BehaviorPanel panel)
         {
             Panel = panel;
         }
 
-        private void SwitchCurrentNode(Node newNode)
+        internal void SwitchCurrentNode(Node newNode)
         {
             if (newNode == null)
             {
@@ -87,11 +116,14 @@ namespace BehaviorGraph
 
             CurrentNode.OnNodeUpdate();
 
+            if (CurrentNode.UpdateTransitions == null)
+                return;
+
             NodeTransition t = null;
 
-            for (int i = 0; i < CurrentNode.Transitions.Count; i++)
+            for (int i = 0; i < CurrentNode.UpdateTransitions.Count; i++)
             {
-                t = CurrentNode.Transitions[i];
+                t = CurrentNode.UpdateTransitions[i];
 
                 bool cond = t.TransitionCondition.IsInverted.Value ? !t.TransitionCondition.Condition() : t.TransitionCondition.Condition();
 

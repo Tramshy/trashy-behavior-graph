@@ -3,7 +3,7 @@ using UnityEngine;
 namespace BehaviorGraph
 {
     [BaseBehaviorElement, AllowMultipleTransition]
-    public class FloatCompare : NodeTransitionObject
+    public class FloatCompareTrigger : TriggerTransition
     {
         public DataField<float> A;
         public DataField<float> B;

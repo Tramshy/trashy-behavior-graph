@@ -4,7 +4,8 @@ using UnityEngine;
 
 namespace BehaviorGraph
 {
-    public class TransformDistanceCompare : NodeTransitionObject, IBaseBehaviorElement, IAllowMultiTransitionElement
+    [BaseBehaviorElement, AllowMultipleTransition]
+    public class TransformDistanceCompare : NodeTransitionObject
     {
         public DataField<Transform> A;
         public DataField<Transform> B;

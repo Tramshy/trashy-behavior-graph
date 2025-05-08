@@ -1,11 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace BehaviorGraph
 {
     [BaseBehaviorElement, AllowMultipleTransition]
-    public class RngTransition : NodeTransitionObject
+    public class RngTrigger : TriggerTransition
     {
         [Tooltip("Will return true if this number or higher is gotten using Random.Range.")]
         public DataField<int> Chance;

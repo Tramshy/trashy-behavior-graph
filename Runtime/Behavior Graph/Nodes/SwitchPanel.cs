@@ -1,6 +1,7 @@
 namespace BehaviorGraph
 {
-    public class SwitchPanel : Node, IBaseBehaviorElement
+    [BaseBehaviorElement]
+    public class SwitchPanel : Node
     {
         public DataField<BehaviorPanel> NewPanel;
         public DataField<BehaviorTree> ThisTree;
