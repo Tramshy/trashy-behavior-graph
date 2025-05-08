@@ -38,21 +38,33 @@ NOTE: To do this you need Git installed on your computer.
 1. In the context menu under `Behavior Graph` choose `Custom Node Script`.
 2. This creates a script which inherits from the `Node` class.
 3. `Node` contains a Start, Update and Exit method, use as necessary.
-4. `Node` also contains an enum, `Statuses`, which contain Success, Running and Failure. Each `Node` has a `CurrentStatus`, there are base transitions which exits a node depending on whether or not the nodes `CurrentStatus` is in Success or Failure.
+4. `Node` also contains an enum, `Statuses`, which contain Success, Running and Failure. Each `Node` has a `CurrentStatus`, there are base transitions which exits a node depending on whether or not the node's `CurrentStatus` is in Success or Failure.
 5. All fields that you wish to serialize to the inspector, that should be linked to the blackboard, should be of the generic type `DataField<T>`, variables that are not of this type will be shown in the inspector and can still be used within the node, but it cannot be linked to the blackboard fields.
-6. Search for your new node in the graph editor and use as you please! *Note: If you want your node to be considered a base node by the system, use the `IBaseBehaviorElement` interface in your node*.
+6. Search for your new node in the graph editor and use as you please! *Note: If you want your node to be considered a base node by the system, use the `BaseBehaviorElement` attribute in your node*.
 
 **Transitions**
 1. In the context menu under `Behavior Graph` choose `Custom Transition Script`.
 2. This creates a script which inherits from the `NodeTransitionObject` class.
-3. The `Condition` method will tell the system to switch node when it returns `true`.
+3. The `Condition` method will tell the system to switch nodes when it returns `true`.
 4. You also need to use `DataField<T>` here in the same way as you would for `Node` objects.
-5. Most transitions should only be used once per node; however, if your new transition should be able to be used by the same node multiple times, then use the `IAllowMultiTransitionElement` interface.
-6. Right click a node and you can find your new transition within the context menu, under the custom section! *Note: You can also use the `IBaseBehaviorElement` interface here to get your new transition to show up under the base section*.
+5. Transitions can by default only be used once per node; however, if your new transition should be able to be used by the same node multiple times, then use the `AllowMultipleTransition` attribute.
+6. Right click a node and you can find your new transition within the context menu, under the custom section! *Note: You can also use the `BaseBehaviorElement` attribute here to get your new transition to show up under the base section*.
+
+**Triggers**
+1. In the context menu under `Behavior Graph` choose `Custom Trigger Script`.
+2. This creates a script which inherits from the `TriggerTransition` class.
+3. The `Condition` method will tell the system to switch nodes when it returns `true`.
+4. Triggers are not checked automatically, instead you will have to use the `CallTrigger` method when you want to attempt a switch. This will then switch if the `Condition` returns true.
+5. The `BaseBehaviorElement` and `AllowMultipleTransition` attributes can be used for Triggers as well.
 
 ## Runtime Usage
-1. Add a `BehaviorTree` component to the game object, also add the class that derives `BehaviorData` if used for overrides.
+1. Add a `BehaviorTree` component to the game object, also add the class that derives `BehaviorData` if linking between blackboard is used.
 2. Reference your `BehaviorPanel` in the `Panel` field of the `BehaviorTree`.
+
+### Using Triggers
+Triggers act very similar to regular transitions, the big difference is that triggers will not be checked automatically. This means you will need to get a reference to the triggers you wish to call. For this you can use the `GetNode` method in a `Panel` and then the `GetTrigger`, or `GetTriggers`, method in the specific node. When you have your reference just use the `CallTrigger` method to attempt a switch.
+
+There are several base triggers that you can use by default. Most of them are self explanitory, but the `SimpleTrigger` can be quite unclear what it does without looking in the code. Its `Condition` always returns true. This means that whenever you use the `CallTrigger` method, it will switch.
 
 ## License
 This package is licensed under the MIT License. For more information read: `LICENSE`.
