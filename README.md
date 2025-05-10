@@ -72,6 +72,8 @@ This package is licensed under the MIT License. For more information read: `LICE
 ## Additional Notes
 The tool is surprisingly performant, but it works using a lot of reflection, and cloning of `Scriptable Objects` in some cases, which is inherently quite costly.
 
-When you try to link integers, floats and similar fields, you may run into an issue that prevents you from clicking the field in the inspector. If you try to click on the field in the inspector, it will instead result in you dragging the value of the field and will not link the fields. To fix this, all you need to do is click at the very edge of the field. I am looking for a fix, but it is quite difficult to change this unfortunately. 
+You can use the `ReadOnlyInspector` attribute on the fields you intend to link, this will make it very clear what fields you need to link.
+
+When you try to link integers, floats and similar fields, you may run into an issue that prevents you from clicking the field in the inspector. If you try to click on the field in the inspector, it will instead result in you dragging the value of the field and will not link the fields. To fix this, all you need to do is click at the very edge of the field or use the `ReadOnlyInspector` attribute.
 
 Due to the fact that the system uses `Scriptable Objects` as nodes and transitions, you may have to use the `[NonSerialized]` attribute to avoid Unity from serializing the runtime data and thus overriding your default values for variables. This is not a problem for all fields, but if you notice the issue just use the attribute.
