@@ -86,7 +86,7 @@ namespace BehaviorGraph
         /// <returns>Returns null if index is out of bounds.</returns>
         public NodeTransitionObject GetTransition(int index)
         {
-            if (index < 0 || index > Transitions.Count)
+            if (index < 0 || index >= Transitions.Count)
                 return null;
 
             return Transitions[index].TransitionCondition;
@@ -132,7 +132,7 @@ namespace BehaviorGraph
         /// <returns>Returns null if index is out of bounds.</returns>
         public TriggerTransition GetTrigger(int index)
         {
-            if (index < 0 || index > Triggers.Count)
+            if (index < 0 || index >= Triggers.Count)
                 return null;
 
             return Triggers[index];
