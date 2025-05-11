@@ -10,12 +10,14 @@ namespace BehaviorGraph
 
         internal Node nextNode;
 
-        public void CallTrigger()
+        public bool CallTrigger()
         {
             bool cond = IsInverted.Value ? !Condition() : Condition();
 
             if (cond)
                 thisTree.SwitchCurrentNode(nextNode);
+
+            return cond;
         }
     }
 }
