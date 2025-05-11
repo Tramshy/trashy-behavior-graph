@@ -32,10 +32,19 @@ namespace BehaviorGraph
             if (!(objectHoldingPanel.GetComponent(componentType) is BehaviorData component))
                 throw new Exception($"No BehaviorData component found on: {objectHoldingPanel.name}");
 
+            var toRemove = new List<int>();
+
             for (int i = 0; i < FieldOverrides.Count; i++)
             {
                 var nodeField = GetType().GetField(FieldOverrides[i].NodeFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
                 var componentField = componentType.GetField(FieldOverrides[i].ComponentFieldOverrideName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (nodeField == null || componentField == null)
+                {
+                    toRemove.Add(i);
+
+                    continue;
+                }
 
                 var value = componentField.GetValue(component);
                 var newData = value;
@@ -43,6 +52,11 @@ namespace BehaviorGraph
                 componentField.SetValue(component, newData);
             }
             
+            for (int i = 0; i < toRemove.Count; i++)
+            {
+                FieldOverrides.RemoveAt(toRemove[i]);
+            }
+
             //foreach (FieldBindingData data in FieldOverrides)
             //{
             //    var nodeField = GetType().GetField(data.NodeFieldName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
