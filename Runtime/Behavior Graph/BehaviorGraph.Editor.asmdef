@@ -1,9 +1,7 @@
 {
     "name": "BehaviorGraph",
     "rootNamespace": "BehaviorGraph",
-    "references": [
-        "GUID:32cdd1ec7fdc567408611ad33118a9cb"
-    ],
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
