@@ -10,14 +10,24 @@ namespace BehaviorGraph.GraphEditor
         {
             var valueProperty = property.FindPropertyRelative("Value");
 
-            EditorGUI.PropertyField(position, valueProperty, label, true);
+            if (valueProperty != null)
+                EditorGUI.PropertyField(position, valueProperty, label, true);
+            else
+            {
+                EditorGUI.PropertyField(position, property, label, true);
+            }
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
             var valueProperty = property.FindPropertyRelative("Value");
 
-            return EditorGUI.GetPropertyHeight(valueProperty);
+            if (valueProperty != null)
+                return EditorGUI.GetPropertyHeight(valueProperty);
+            else
+            {
+                return 25;
+            }
         }
     }
 }
