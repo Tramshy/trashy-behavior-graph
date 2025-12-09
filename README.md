@@ -1,5 +1,6 @@
 # Behavior Graph
 A visual graph editor facilitating the creation of simple and complex AI behaviors
+
 This does not work in newer versions of Unity (Unity 6 and above)
 
 ## Features
